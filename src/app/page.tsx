@@ -1,101 +1,2497 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import * as React from "react";
+import {
+  ArrowDown,
+  MessageSquare,
+  Cpu,
+  Compass,
+  Plus,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  DownloadCloud,
+  Play,
+  ExternalLink,
+  Table as TableIcon,
+  FileText,
+  GitBranch,
+  BookOpen,
+  Filter,
+  Calendar,
+  Network,
+  Box,
+  MapPin,
+  Activity,
+  BarChart2,
+  Stethoscope,
+  Users,
+  Briefcase,
+  Building,
+  Hospital,
+  Database,
+  User,
+  Settings,
+  LogOut,
+  Maximize2,
+  Minimize2,
+  Info,
+  Download,
+  FolderOpen,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+const metadata = [
+  {
+    label: "ZIP CODE",
+    core: true,
+    foreignKey: true,
+    primaryKey: true,
+    nullable: false,
+    format: "Length 5 all numeric",
+    description: "USPS ASSIGNED ZIP CODE",
+    uniqueValues: "40,866",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "00501",
+    max: "99950",
+    average: "--"
+  },
+  {
+    label: "HSA",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Length 5 all numeric",
+    description: "HSAS ARE THE LOCAL HEALTH CARE MARKET FOR INPATIENT CARE",
+    uniqueValues: "3,436",
+    commonValues: "5089, 25038, 52090",
+    nullPercentage: "0.000%",
+    min: "1001",
+    max: "53026",
+    average: "--"
+  },
+  {
+    label: "HSA CITY",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Text length 24",
+    description: "HSA CITY NAME LABEL",
+    uniqueValues: "2,690",
+    commonValues: "WASHINGTON, SPRINGFIELD, HOUSTON",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "HSA STATE",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Text length 2",
+    description: "HSA STATE NAME LABEL",
+    uniqueValues: "51",
+    commonValues: "TX, CA, PA",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  }
+]
+
+function MetadataVisualization() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <ScrollArea className="h-[600px] pr-4">
+      <Accordion type="single" collapsible className="w-full">
+        {metadata.map((field, index) => (
+          <AccordionItem value={`item-${index}`} key={index}>
+            <AccordionTrigger className="hover:no-underline">
+              <div className="flex items-center space-x-2">
+                <span className="font-semibold">{field.label}</span>
+                <div className="flex space-x-1">
+                  {field.core && <Badge variant="secondary">C</Badge>}
+                  {field.foreignKey && <Badge variant="secondary">FK</Badge>}
+                  {field.primaryKey && <Badge variant="secondary">PK</Badge>}
+                </div>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                {Object.entries(field).map(([key, value]) => (
+                  key !== 'label' && key !== 'notes' && (
+                    <div key={key}>
+                      <p className="font-medium">{key.charAt(0).toUpperCase() + key.slice(1)}:</p>
+                      <p>{typeof value === 'boolean' ? (value ? <Check className="text-green-500" /> : <X className="text-red-500" />) : value}</p>
+                    </div>
+                  )
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </ScrollArea>
+  )
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+function MetadataTable() {
+  return (
+    <ScrollArea className="h-[600px]">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Label</TableHead>
+            <TableHead>Core</TableHead>
+            <TableHead>Foreign Key</TableHead>
+            <TableHead>Primary Key</TableHead>
+            <TableHead>Nullable</TableHead>
+            <TableHead>Format</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Number of Unique Values</TableHead>
+            <TableHead>Most Common Values or Example</TableHead>
+            <TableHead>% NULL</TableHead>
+            <TableHead>Min</TableHead>
+            <TableHead>Max</TableHead>
+            <TableHead>Average</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {metadata.map((field, index) => (
+            <TableRow key={index}>
+              <TableCell>{field.label}</TableCell>
+              <TableCell>{field.core ? 'Yes' : 'No'}</TableCell>
+              <TableCell>{field.foreignKey ? 'Yes' : 'No'}</TableCell>
+              <TableCell>{field.primaryKey ? 'Yes' : 'No'}</TableCell>
+              <TableCell>{field.nullable ? 'Yes' : 'No'}</TableCell>
+              <TableCell>{field.format}</TableCell>
+              <TableCell>{field.description}</TableCell>
+              <TableCell>{field.uniqueValues}</TableCell>
+              <TableCell>{field.commonValues}</TableCell>
+              <TableCell>{field.nullPercentage}</TableCell>
+              <TableCell>{field.min}</TableCell>
+              <TableCell>{field.max}</TableCell>
+              <TableCell>{field.average}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </ScrollArea>
+  )
+}
+
+function NavButton({ icon: Icon, label, onClick, isActive }: { icon: React.ElementType, label: string, onClick: () => void, isActive?: boolean }) {
+  return (
+    <Button 
+      variant={isActive ? "secondary" : "ghost"}
+      size="sm" 
+      className="w-full justify-start"
+      onClick={onClick}
+    >
+      <Icon className="mr-1 h-3 w-3" /> {label}
+    </Button>
+  )
+}
+
+function AccordionSection({ title, icon: Icon, items, selectedFilters, setSelectedFilters }: { title: string, icon: React.ElementType, items: string[], selectedFilters: string[], setSelectedFilters: React.Dispatch<React.SetStateAction<string[]>> }) {
+  return (
+    <AccordionItem value={title.toLowerCase()}>
+      <AccordionTrigger>
+        <div className="flex items-center">
+          <Icon className="mr-2 h-4 w-4" />
+          {title}
         </div>
+      </AccordionTrigger>
+      <AccordionContent>
+        <div className="space-y-2">
+          <Label>Select {title}</Label>
+          {items.map((item) => (
+            <div key={item} className="flex items-center space-x-2">
+              <Checkbox 
+                id={`${title.toLowerCase()}-${item.toLowerCase().replace(/\s+/g, '-')}`}
+                checked={selectedFilters.includes(item)}
+                onCheckedChange={(checked) => {
+                  setSelectedFilters(prev => 
+                    checked 
+                      ? [...prev, item]
+                      : prev.filter(i => i !== item)
+                  )
+                }}
+              />
+              <Label htmlFor={`${title.toLowerCase()}-${item.toLowerCase().replace(/\s+/g, '-')}`}>{item}</Label>
+            </div>
+          ))}
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  )
+}
+
+function TableViewButton({ icon: Icon, label, isActive, onClick }: { icon: React.ElementType, label: string, isActive: boolean, onClick: () => void }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant={isActive ? 'secondary' : 'ghost'}
+          size="sm"
+          onClick={onClick}
+          aria-label={label}
+        >
+          <Icon className="h-4 w-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{label}</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+function DataTable({ title, fields, data }: { title: string, fields: string[], data: string[][] }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {fields.map((field, index) => (
+                <TableHead key={index}>{field}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((row, index) => (
+              <TableRow key={index}>
+                {row.map((cell, cellIndex) => (
+                  <TableCell key={cellIndex}>{cell}</TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  )
+}
+
+
+export default function Component() {
+  const [isNavOpen, setIsNavOpen] = React.useState(true);
+  const [activePane, setActivePane] = React.useState<
+    "chat" | "build" | "explore"
+  >("chat");
+  const [isSecondPaneOpen, setIsSecondPaneOpen] = React.useState(true);
+  const [chatMessages, setChatMessages] = React.useState([
+    {
+      role: "system",
+      content: "How can I assist you with your data analysis today?",
+    },
+  ]);
+  const [sqlQuery, setSqlQuery] = React.useState("");
+  const [activeTableView, setActiveTableView] = React.useState<
+    "table" | "records" | "metadata" | "lineage"
+  >("table");
+  const [isFullScreen, setIsFullScreen] = React.useState(false);
+  const [tableData, setTableData] = React.useState<any[]>([]);
+  const [showTableView, setShowTableView] = React.useState(false)
+  const [selectedFilters, setSelectedFilters] = React.useState<string[]>(['Reference', 'Geography'])
+  const [metadataView, setMetadataView] = React.useState<'table' | 'visualization'>('table')
+  const [selectedDartmouthFields, setSelectedDartmouthFields] = React.useState<string[]>(['ZIP_CODE', 'HSA CITY', 'HSA STATE', 'HRR CITY', 'HRR STATE'])
+  const [selectedCensusFields, setSelectedCensusFields] = React.useState<string[]>(['ZIP CODE', 'HOUSING UNITS', 'MEDIAN HOUSEHOLD INCOME', 'POPULATION DENSITY', 'POPULATION'])
+  const [selectedZipCodeFields, setSelectedZipCodeFields] = React.useState<string[]>(['ZIPCODE', 'CITY', 'STATE'])
+
+  const fetchSQLResults = async (query: string) => {
+    console.log("Fetching SQL results:", query);
+    try {
+      const response = await fetch(
+        "https://semantiqhealthwebapi.jollydesert-76d39b1d.eastus.azurecontainerapps.io/api/sl_execute_sql",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query }),
+        }
+      );
+      const data = await response.json();
+      console.log("SQL results:", data.results);
+      setTableData(data.results);
+    } catch (error) {
+      console.error("Error fetching SQL results:", error);
+    }
+  };
+
+  interface DataSourceProps {
+    title: string;
+    source: string;
+    date: string;
+  }
+  const DataSource: React.FC<DataSourceProps> = ({ title, source, date }) => (
+    <Card className="w-full max-w-[300px] bg-primary text-primary-foreground">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">- {source}</p>
+        <p className="text-sm">- {date}</p>
+      </CardContent>
+    </Card>
+  );
+  interface ProcessedDataProps {
+    title: string;
+    description: string;
+    date: string;
+  }
+  const ProcessedData: React.FC<ProcessedDataProps> = ({
+    title,
+    description,
+    date,
+  }) => (
+    <Card className="w-full max-w-[300px]">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">- {description}</p>
+        <p className="text-sm">- {date}</p>
+      </CardContent>
+    </Card>
+  );
+
+  const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    //const input = e.currentTarget.elements.namedItem('userInput') as HTMLInputElement
+    console.log("Input element:", sqlQuery); // Debug log
+    if (sqlQuery && sqlQuery.trim()) {
+      const newMessage = { role: "user", content: sqlQuery };
+      setChatMessages([...chatMessages, newMessage]);
+      fetchSQLResults(sqlQuery);
+      setTimeout(() => {
+        setChatMessages((prev) => [
+          ...prev,
+          {
+            role: "system",
+            content:
+              "Based on your question, here's a SQL query that might help:",
+          },
+        ]);
+        setSqlQuery("SELECT * FROM REF_HSA_HRR limit 10;");
+      }, 1000);
+    } else {
+      console.error("Input element is empty or not found.");
+    }
+  };
+
+  const toggleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
+  };
+
+  const handleExport = () => {
+    // This is a dummy function. In a real application, this would trigger the file download.
+    console.log('Exporting all data')
+    // You would typically call an API or generate files here
+  }
+
+  const navItems = [
+    { icon: MessageSquare, label: 'Chat' },
+    { icon: Cpu, label: 'Build' },
+    { icon: Compass, label: 'Explore' },
+  ]
+
+  const accordionItems = [
+    { title: 'Source', icon: Database, items: ['CMS', 'CDC', 'Dartmouth Atlas', 'NIH', 'NUCC', 'US Census Bureau', 'US Postal Service'] },
+    { title: 'Category', icon: FolderOpen, items: ['Compare', 'Payer', 'Provider', 'Reference'] },
+    { title: 'Entity', icon: Box, items: ['Condition', 'Cost', 'Facility', 'Geography', 'Group', 'Provider (Individual)', 'Provider (Organization)', 'Setting', 'Speciality', 'Utilization'] },
+  ]
+
+  const tableViewButtons = [
+    { icon: TableIcon, label: 'Show Table', view: 'table' },
+    { icon: FileText, label: 'View Records', view: 'records' },
+    { icon: Database, label: 'Show Metadata', view: 'metadata' },
+    { icon: Network, label: 'Show Lineage', view: 'lineage' },
+  ]
+
+  return (
+    <div className="flex h-screen bg-background">
+      {/* Left Navigation */}
+      <nav
+        className={`${
+          isNavOpen ? "w-44" : "w-12"
+        } border-r transition-all duration-300 ease-in-out flex flex-col ${
+          isFullScreen ? "hidden" : ""
+        }`}
+      >
+        <div className="p-2 flex items-center justify-between">
+          {isNavOpen && <h2 className="text-lg font-bold">SemantIQ</h2>}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsNavOpen(!isNavOpen)}
+            className="h-6 w-6"
+            aria-label={isNavOpen ? "Collapse navigation" : "Expand navigation"}
+          >
+            {isNavOpen ? (
+              <ChevronLeft className="h-3 w-3" />
+            ) : (
+              <ChevronRight className="h-3 w-3" />
+            )}
+          </Button>
+        </div>
+        {isNavOpen ? (
+          <div className="flex-1 overflow-auto p-2">
+            <ul className="space-y-1">
+              <li>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full justify-start"
+                  onClick={() => setActivePane("chat")}
+                >
+                  <MessageSquare className="mr-1 h-3 w-3" /> Chat
+                </Button>
+              </li>
+              <li>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full justify-start"
+                  onClick={() => setActivePane("build")}
+                >
+                  <Cpu className="mr-1 h-3 w-3" /> Build
+                </Button>
+              </li>
+              <li>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full justify-start"
+                  onClick={() => setActivePane("explore")}
+                >
+                  <Compass className="mr-1 h-3 w-3" /> Explore
+                </Button>
+              </li>
+            </ul>
+            <Button size="sm" className="w-full mt-2">
+              <Plus className="mr-1 h-3 w-3" /> New Project
+            </Button>
+          </div>
+        ) : (
+          <div className="flex-1 flex flex-col items-center pt-2 space-y-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6"
+              aria-label="Chat"
+              onClick={() => setActivePane("chat")}
+            >
+              <MessageSquare className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6"
+              aria-label="Build"
+              onClick={() => setActivePane("build")}
+            >
+              <Cpu className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6"
+              aria-label="Explore"
+              onClick={() => setActivePane("explore")}
+            >
+              <Compass className="h-3 w-3" />
+            </Button>
+          </div>
+        )}
+        {/* Profile Button */}
+        <div className="p-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 rounded-full"
+              >
+                <Avatar>
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn"
+                  />
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">shadcn</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    m@example.com
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </nav>
+
+      {/* Second Pane (Chat, Build, or Explore) */}
+      <aside
+        className={`${
+          isSecondPaneOpen ? "w-80" : "w-16"
+        } border-r transition-all duration-300 ease-in-out flex flex-col ${
+          isFullScreen ? "hidden" : ""
+        }`}
+      >
+        <div className="p-4 flex items-center justify-between">
+          {isSecondPaneOpen && (
+            <h2 className="text-xl font-semibold">
+              {activePane === "chat"
+                ? "Copilot"
+                : activePane === "build"
+                ? "Filters"
+                : "Explore"}
+            </h2>
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsSecondPaneOpen(!isSecondPaneOpen)}
+            className="h-8 w-8"
+            aria-label={isSecondPaneOpen ? "Collapse pane" : "Expand pane"}
+          >
+            {isSecondPaneOpen ? (
+              <ChevronLeft className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+        {isSecondPaneOpen &&
+          (activePane === "chat" ? (
+            <>
+              <ScrollArea className="flex-1 px-4">
+                {chatMessages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`mb-4 ${
+                      message.role === "user" ? "text-right" : "text-left"
+                    }`}
+                  >
+                    <div
+                      className={`inline-block p-2 rounded-lg ${
+                        message.role === "user"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted"
+                      }`}
+                    >
+                      {message.content}
+                    </div>
+                  </div>
+                ))}
+              </ScrollArea>
+              <form onSubmit={handleSendMessage} className="p-4">
+                <Input
+                  id="userInput"
+                  placeholder="Type your message..."
+                  className="mb-2"
+                />
+                <Button type="submit" className="w-full">
+                  Send
+                </Button>
+              </form>
+            </>
+          ) : activePane === "build" ? (
+            <ScrollArea className="flex-1">
+              <div className="p-4 space-y-4">
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="temporal">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        Temporal
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="time-basis">Select Time Basis</Label>
+                          <Select>
+                            <SelectTrigger id="time-basis">
+                              <SelectValue placeholder="Select time basis" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="paid">Paid Date</SelectItem>
+                              <SelectItem value="service">
+                                Service Date
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="time-period">
+                            Select Time Period
+                          </Label>
+                          <Select>
+                            <SelectTrigger id="time-period">
+                              <SelectValue placeholder="Select time period" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="daily">Daily</SelectItem>
+                              <SelectItem value="weekly">Weekly</SelectItem>
+                              <SelectItem value="monthly">Monthly</SelectItem>
+                              <SelectItem value="quarterly">
+                                Quarterly
+                              </SelectItem>
+                              <SelectItem value="yearly">Yearly</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="geographical">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <MapPin className="mr-2 h-4 w-4" />
+                        Geographical
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="geography-basis">
+                            Select Geography Basis
+                          </Label>
+                          <Select>
+                            <SelectTrigger id="geography-basis">
+                              <SelectValue placeholder="Select geography basis" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="provider">Provider</SelectItem>
+                              <SelectItem value="individual">
+                                Individual
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="geography-level">
+                            Select Geography Level
+                          </Label>
+                          <Select>
+                            <SelectTrigger id="geography-level">
+                              <SelectValue placeholder="Select geography level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="zipcode">ZipCode</SelectItem>
+                              <SelectItem value="county">County</SelectItem>
+                              <SelectItem value="hsa">HSA</SelectItem>
+                              <SelectItem value="hrr">HRR</SelectItem>
+                              <SelectItem value="msa">MSA</SelectItem>
+                              <SelectItem value="state">State</SelectItem>
+                              <SelectItem value="country">Country</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="activities">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <Activity className="mr-2 h-4 w-4" />
+                        Activities
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2">
+                        <Label>Select Activities</Label>
+                        {[
+                          "Screenings",
+                          "Procedures",
+                          "Medications",
+                          "Lab Tests",
+                        ].map((activity) => (
+                          <div
+                            key={activity}
+                            className="flex items-center  space-x-2"
+                          >
+                            <Checkbox
+                              id={`activity-${activity.toLowerCase()}`}
+                            />
+                            <Label
+                              htmlFor={`activity-${activity.toLowerCase()}`}
+                            >
+                              {activity}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="unit-of-measure">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <BarChart2 className="mr-2 h-4 w-4" />
+                        Unit of Measure
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2">
+                        <Label htmlFor="unit-of-measure">
+                          Select Unit of Measure
+                        </Label>
+                        <Select>
+                          <SelectTrigger id="unit-of-measure">
+                            <SelectValue placeholder="Select unit of measure" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="count">Count</SelectItem>
+                            <SelectItem value="percentage">
+                              Percentage
+                            </SelectItem>
+                            <SelectItem value="rate">Rate per 1000</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="conditions">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <Stethoscope className="mr-2 h-4 w-4" />
+                        Conditions
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2">
+                        <Label>Select Conditions</Label>
+                        {["Diabetes", "Hypertension", "Asthma", "COPD"].map(
+                          (condition) => (
+                            <div
+                              key={condition}
+                              className="flex items-center space-x-2"
+                            >
+                              <Checkbox
+                                id={`condition-${condition.toLowerCase()}`}
+                              />
+                              <Label
+                                htmlFor={`condition-${condition.toLowerCase()}`}
+                              >
+                                {condition}
+                              </Label>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="cohort">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <Users className="mr-2 h-4 w-4" />
+                        Cohort
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2">
+                        <Label htmlFor="cohort">Select Cohort</Label>
+                        <Select>
+                          <SelectTrigger id="cohort">
+                            <SelectValue placeholder="Select cohort" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all-patients">
+                              All Patients
+                            </SelectItem>
+                            <SelectItem value="pediatric">Pediatric</SelectItem>
+                            <SelectItem value="adult">Adult</SelectItem>
+                            <SelectItem value="geriatric">Geriatric</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="specialty-taxonomy">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <Briefcase className="mr-2 h-4 w-4" />
+                        Specialty Taxonomy
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2">
+                        <Label>Select Specialties</Label>
+                        {[
+                          "Primary Care",
+                          "Cardiology",
+                          "Oncology",
+                          "Neurology",
+                        ].map((specialty) => (
+                          <div
+                            key={specialty}
+                            className="flex items-center space-x-2"
+                          >
+                            <Checkbox
+                              id={`specialty-${specialty
+                                .toLowerCase()
+                                .replace(" ", "-")}`}
+                            />
+                            <Label
+                              htmlFor={`specialty-${specialty
+                                .toLowerCase()
+                                .replace(" ", "-")}`}
+                            >
+                              {specialty}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="provider">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <Building className="mr-2 h-4 w-4" />
+                        Provider
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2">
+                        <Label htmlFor="provider">Select Provider</Label>
+                        <Select>
+                          <SelectTrigger id="provider">
+                            <SelectValue placeholder="Select provider" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All Providers</SelectItem>
+                            <SelectItem value="hospital-a">
+                              Hospital A
+                            </SelectItem>
+                            <SelectItem value="clinic-b">Clinic B</SelectItem>
+                            <SelectItem value="practice-c">
+                              Practice C
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="setting">
+                    <AccordionTrigger>
+                      <div className="flex items-center">
+                        <Hospital className="mr-2 h-4 w-4" />
+                        Setting
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2">
+                        <Label>Select Settings</Label>
+                        {[
+                          "Inpatient",
+                          "Outpatient",
+                          "Emergency",
+                          "Ambulatory",
+                        ].map((setting) => (
+                          <div
+                            key={setting}
+                            className="flex items-center space-x-2"
+                          >
+                            <Checkbox id={`setting-${setting.toLowerCase()}`} />
+                            <Label htmlFor={`setting-${setting.toLowerCase()}`}>
+                              {setting}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Button className="w-full mt-4">
+                  <Filter className="mr-2 h-4 w-4" />
+                  Apply Filters
+                </Button>
+              </div>
+            </ScrollArea>
+          ) : (
+            <ScrollArea className="flex-1">
+              <div className="p-4">
+              <div className="p-4 space-y-4">
+                  <Accordion type="single" collapsible className="w-full">
+                    {accordionItems.map((item) => (
+                      <AccordionSection key={item.title} title={item.title} icon={item.icon} items={item.items} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
+                    ))}
+                  </Accordion>
+                  <Button className="w-full mt-4" onClick={() => setShowTableView(true)}>
+                    <Filter className="mr-2 h-4 w-4" />
+                    Apply Filters
+                  </Button>
+                </div>
+          </div>
+            </ScrollArea>
+          ))}
+      </aside>
+
+      {/* Main Content Area (Right Pane) */}
+      <main
+        className={`flex-1 p-6 overflow-auto ${
+          isFullScreen ? "fixed inset-0 z-50 bg-background" : ""
+        }`}
+      >
+        {activePane !== "explore" ? (
+          <Tabs defaultValue="query">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="query">Query</TabsTrigger>
+              <TabsTrigger value="tableView">Table View</TabsTrigger>
+            </TabsList>
+            <TabsContent value="query">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle>SQL Query</CardTitle>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                            >
+                              <BookOpen className="h-5 w-5" />
+                              <span className="sr-only">
+                                Open data dictionary
+                              </span>
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[400px] max-h-[600px] overflow-y-auto">
+                            <div className="grid gap-4">
+                              <div className="space-y-2">
+                                <h4 className="font-medium leading-none">
+                                  Data Dictionary
+                                </h4>
+                                <p className="text-sm text-muted-foreground">
+                                  Explanation of the data elements in your
+                                  query.
+                                </p>
+                              </div>
+                              <div className="grid gap-2">
+                                <div className="grid grid-cols-3 items-center gap-4">
+                                  <span className="text-sm font-medium">
+                                    screening_method
+                                  </span>
+                                  <span className="col-span-2 text-sm">
+                                    The type of colorectal cancer screening
+                                    performed
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-3 items-center gap-4">
+                                  <span className="text-sm font-medium">
+                                    total_screenings
+                                  </span>
+                                  <span className="col-span-2 text-sm">
+                                    The count of screenings for each method
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-3 items-center gap-4">
+                                  <span className="text-sm font-medium">
+                                    avg_age
+                                  </span>
+                                  <span className="col-span-2 text-sm">
+                                    The average age of patients for each
+                                    screening method
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-3 items-center gap-4">
+                                  <span className="text-sm font-medium">
+                                    screening_date
+                                  </span>
+                                  <span className="col-span-2 text-sm">
+                                    The date when the screening was performed
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-3 items-center gap-4">
+                                  <span className="text-sm font-medium">
+                                    patient_age
+                                  </span>
+                                  <span className="col-span-2 text-sm">
+                                    The age of the patient at the time of
+                                    screening
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="space-y-2">
+                                <h4 className="font-medium leading-none">
+                                  Additional Information
+                                </h4>
+                                <p className="text-sm text-muted-foreground">
+                                  The colorectal_screenings table contains
+                                  information about various screening methods
+                                  used for colorectal cancer detection. It
+                                  includes data on the type of screening, when
+                                  it was performed, and demographic information
+                                  about the patients.
+                                </p>
+                              </div>
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Open Data Dictionary</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSendMessage}>
+                    <Textarea
+                      value={sqlQuery}
+                      onChange={(e) => setSqlQuery(e.target.value)}
+                      placeholder="Your SQL query won't appear here..."
+                      className="min-h-[200px] font-mono"
+                    />
+                    <Button type="submit">Run Query</Button>
+                  </form>
+                  <div className="mt-4">
+                    <h4 className="text-sm font-medium mb-2">
+                      Query Explanation
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      This query does the following:
+                    </p>
+                    <ol className="list-decimal pl-5 space-y-2 text-sm text-muted-foreground">
+                      <li>
+                        Selects the screening method, counts the total
+                        screenings, and calculates the average patient age for
+                        each method.
+                      </li>
+                      <li>Filters the data for the year 2023.</li>
+                      <li>Groups the results by screening method.</li>
+                      <li>
+                        Orders the results by the total number of screenings in
+                        descending order.
+                      </li>
+                    </ol>
+                  </div>
+                </CardContent>
+              </Card>
+              {(activePane === "chat" || activePane === "build") && (
+                <Card className="mt-6">
+                  <CardHeader>
+                    <CardTitle>Related Studies</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <h3 className="text-lg font-semibold mb-2">
+                      Colorectal Screening Study
+                    </h3>
+                    <p className="mb-4">
+                      A recent study by Johns Hopkins and Mayo Clinic found that
+                      regular colorectal screenings can reduce the risk of
+                      colorectal cancer by up to 60%.
+                      <a
+                        href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/colon-cancer/colorectal-cancer-screening"
+                        className="text-blue-500 hover:underline ml-2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Read more
+                      </a>
+                    </p>
+                    <h3 className="text-lg font-semibold mb-2">
+                      AI-Generated Summary of Related Studies
+                    </h3>
+                    <p>
+                      Based on the current filters applied, AI analysis of
+                      recent studies suggests: - Colonoscopy remains the gold
+                      standard for colorectal cancer screening - FIT tests show
+                      promise as a less invasive initial screening method -
+                      Regular screening starting at age 45 is now recommended
+                      for average-risk individuals - Patients with a family
+                      history of colorectal cancer may benefit from earlier and
+                      more frequent screenings
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
+            <TabsContent value="tableView">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    Table View
+                    <TooltipProvider>
+                      <div className="flex space-x-2">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                activeTableView === "table"
+                                  ? "secondary"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => setActiveTableView("table")}
+                              aria-label="Show table"
+                            >
+                              <TableIcon className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Show Table</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                activeTableView === "records"
+                                  ? "secondary"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => setActiveTableView("records")}
+                              aria-label="Show records"
+                            >
+                              <FileText className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>View Records</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                activeTableView === "metadata"
+                                  ? "secondary"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => setActiveTableView("metadata")}
+                              aria-label="Show metadata"
+                            >
+                              <Database className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Show Metadata</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                activeTableView === "lineage"
+                                  ? "secondary"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => setActiveTableView("lineage")}
+                              aria-label="Show lineage"
+                            >
+                              <GitBranch className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Show Lineage</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={toggleFullScreen}
+                              aria-label={
+                                isFullScreen
+                                  ? "Exit full screen"
+                                  : "Enter full screen"
+                              }
+                            >
+                              {isFullScreen ? (
+                                <Minimize2 className="h-4 w-4" />
+                              ) : (
+                                <Maximize2 className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              {isFullScreen
+                                ? "Exit Full Screen"
+                                : "Enter Full Screen"}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </TooltipProvider>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {activeTableView === "table" && (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          {tableData.length > 0 &&
+                            Object.keys(tableData[0]).map((key) => (
+                              <TableHead key={key}>{key}</TableHead>
+                            ))}
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {tableData.map((row, index) => (
+                          <TableRow key={index}>
+                            {Object.values(row).map((value, i) => (
+                              <TableCell key={i}>{value}</TableCell>
+                            ))}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+
+                      {/* <TableHeader>
+                        <TableRow>
+                          <TableHead>Screening Method</TableHead>
+                          <TableHead>Total Screenings</TableHead>
+                          <TableHead>Average Age</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Coscopy</TableCell>
+                          <TableCell>1500</TableCell>
+                          <TableCell>55.3</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>FIT</TableCell>
+                          <TableCell>2000</TableCell>
+                          <TableCell>52.7</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Sigmoidoscopy</TableCell>
+                          <TableCell>800</TableCell>
+                          <TableCell>58.1</TableCell>
+                        </TableRow>
+                      </TableBody> */}
+                    </Table>
+                  )}
+                  {activeTableView === "records" && (
+                    <div>
+                      <p>
+                        This section would display individual records from the
+                        query results.
+                      </p>
+                      <p className="text-muted-foreground">
+                        For privacy reasons, individual patient records are not
+                        shown in this demo.
+                      </p>
+                    </div>
+                  )}
+                  {activeTableView === "metadata" && (
+                    <ul className="list-disc pl-5">
+                      <li>Table: colorectal_screenings</li>
+                      <li>
+                        Columns: screening_method, screening_date, patient_age
+                      </li>
+                      <li>Date Range: 2023-01-01 to 2023-12-31</li>
+                      <li>Aggregations: COUNT(*), AVG(patient_age)</li>
+                    </ul>
+                  )}
+                  {activeTableView === "lineage" && (
+                    <div className="flex flex-col items-center space-y-4 p-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <DataSource
+                          title="zipcodes_2024Q3"
+                          source="United States Postal Service"
+                          date="20240930 date of record"
+                        />
+                        <DataSource
+                          title="ziphsahrr19"
+                          source="Dartmouth Atlas"
+                          date="20190901 date of record"
+                        />
+                        <DataSource
+                          title="ziptocensus2020"
+                          source="Dartmouth Atlas"
+                          date="20190901 date of record"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <ProcessedData
+                          title="Geography"
+                          description="SemantIQ data model and SUPER JOB MANIK cleanselite"
+                          date="20241005 date of creation"
+                        />
+                        <ProcessedData
+                          title="Dartmouth Atlas"
+                          description="SemantIQ data model and cleanselite"
+                          date="20241003 date of creation"
+                        />
+                        <ProcessedData
+                          title="Census 2020"
+                          description="SemantIQ data model and cleanselite"
+                          date="20241006 date of creation"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <Card className="w-full max-w-[300px] bg-secondary">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-lg">
+                              Geography Extract
+                            </CardTitle>
+                          </CardHeader>
+                        </Card>
+                        <Card className="w-full max-w-[300px] bg-secondary">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-lg">
+                              HSA HRR Extract
+                            </CardTitle>
+                          </CardHeader>
+                        </Card>
+                        <Card className="w-full max-w-[300px] bg-secondary">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-lg">
+                              Census Extract
+                            </CardTitle>
+                          </CardHeader>
+                        </Card>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        ) : (
+          <Tabs defaultValue="tableView">
+            <TabsList className="grid w-full grid-cols-1">
+              <TabsTrigger value="tableView">Table View</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tableView">
+              {showTableView ? (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                      {activeTableView === 'table' && 'Table View'}
+                      {activeTableView === 'records' && 'Sample Records'}
+                      {activeTableView === 'metadata' && 'Metadata'}
+                      {activeTableView === 'lineage' && 'Data Lineage'}
+                      <TooltipProvider>
+                        <div className="flex space-x-2">
+                          {tableViewButtons.map((button) => (
+                            <TableViewButton
+                              key={button.view}
+                              icon={button.icon}
+                              label={button.label}
+                              isActive={activeTableView === button.view}
+                              onClick={() => setActiveTableView(button.view as 'table' | 'records' | 'metadata' | 'lineage')}
+                            />
+                          ))}
+                          <Button variant="outline" size="sm" onClick={handleExport}>
+                            <DownloadCloud className="mr-2 h-4 w-4" />
+                            Export
+                          </Button>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={toggleFullScreen}
+                                aria-label={isFullScreen ? "Exit full screen" : "Enter full screen"}
+                              >
+                                {isFullScreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{isFullScreen ? "Exit Full Screen" : "Enter Full Screen"}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </TooltipProvider>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {activeTableView === 'table' && (
+                      <ScrollArea className="h-[600px]">
+                        <div className="space-y-6">
+                          <Card>
+                            <CardHeader>
+                              <CardTitle>Dartmouth HSA HRR</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="grid grid-cols-2 gap-4">
+                                {['ZIP_CODE', 'HRR', 'HRR CITY', 'HRR STATE', 'HSA', 'HSA CITY', 'HSA STATE'].map((field) => (
+                                  <div key={field} className="flex items-center space-x-2">
+                                    <Checkbox 
+                                      id={`dartmouth-${field.toLowerCase().replace(/\s+/g, '-')}`}
+                                      checked={selectedDartmouthFields.includes(field)}
+                                      onCheckedChange={(checked) => {
+                                        setSelectedDartmouthFields(prev =>
+                                          checked
+                                            ? [...prev, field]
+                                            : prev.filter(f => f !== field)
+                                        )
+                                      }}
+                                    />
+                                    <Label htmlFor={`dartmouth-${field.toLowerCase().replace(/\s+/g, '-')}`}>{field}</Label>
+                                  </div>
+                                ))}
+                              </div>
+                            </CardContent>
+                          </Card>
+
+                          <Card>
+                            <CardHeader>
+                              <CardTitle>Census</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="grid grid-cols-2 gap-4">
+                                {[
+                                  'ZIP CODE', 'POPULATION', 'HOUSING UNITS', 'MEDIAN HOME VALUE', 'MEDIAN HOUSEHOLD INCOME',
+                                  'OCCUPIED HOUSING UNITS', 'POPULATION DENSITY', 'ZIP CODE TYPE', 'EDUCATION LESS THAN HIGH SCHOOL',
+                                  'EDUCATION HIGH SCHOOL GRADUATE', 'EDUCATION ASSOCIATE DEGREE', 'EDUCATION BACHELORS OR HIGHER',
+                                  'EDUCATION MASTERS OR HIGHER', 'EDUCATION PROFESSIONAL SCHOOL', 'EDUCATION DOCTORATE DEGREE',
+                                  'POPULATION MALE', 'POPULATION FEMALE', 'POPULATION WHITE', 'POPULATION BLACK AFRICAN AMERICAN',
+                                  'POPULATION AMERICAN INDIAN ALASKA NATIVE', 'POPULATION ASIAN', 'POPULATION NATIVE HAWAIIAN PACIFIC ISLANDER',
+                                  'POPULATION OTHER', 'POPULATION TWO OR MORE RACES'
+                                ].map((field) => (
+                                  <div key={field} className="flex items-center space-x-2">
+                                    <Checkbox 
+                                      id={`census-${field.toLowerCase().replace(/\s+/g, '-')}`}
+                                      checked={selectedCensusFields.includes(field)}
+                                      onCheckedChange={(checked) => {
+                                        setSelectedCensusFields(prev =>
+                                          checked
+                                            ? [...prev, field]
+                                            : prev.filter(f => f !== field)
+                                        )
+                                      }}
+                                    />
+                                    <Label htmlFor={`census-${field.toLowerCase().replace(/\s+/g, '-')}`}>{field}</Label>
+                                  </div>
+                                ))}
+                              </div>
+                            </CardContent>
+                          </Card>
+
+                          <Card>
+                            <CardHeader>
+                              <CardTitle>ZipCode</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="grid grid-cols-2 gap-4">
+                                {['ZIPCODE', 'CITY', 'STATE', 'COUNTY', 'AREA_CODE', 'LATITUDE', 'LONGITUDE'].map((field) => (
+                                  <div key={field} className="flex items-center space-x-2">
+                                    <Checkbox 
+                                      id={`zipcode-${field.toLowerCase().replace(/\s+/g, '-')}`}
+                                      checked={selectedZipCodeFields.includes(field)}
+                                      onCheckedChange={(checked) => {
+                                        setSelectedZipCodeFields(prev =>
+                                          checked
+                                            ? [...prev, field]
+                                            : prev.filter(f => f !== field)
+                                        )
+                                      }}
+                                    />
+                                    <Label htmlFor={`zipcode-${field.toLowerCase().replace(/\s+/g, '-')}`}>{field}</Label>
+                                  </div>
+                                ))}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </ScrollArea>
+                    )}
+                    {activeTableView === 'records' && (
+                      <ScrollArea className="h-[600px]">
+                        <div className="space-y-6">
+                          <DataTable 
+                            title="Dartmouth HSA HRR"
+                            fields={['ZIP CODE', 'HSA', 'HSA CITY', 'HSA STATE']}
+                            data={[
+                              ['01001', '22058', 'Springfield', 'MA'],
+                              ['01002', '22046', 'Northampton', 'MA'],
+                              ['01003', '22046', 'Northampton', 'MA'],
+                              ['01004', '22046', 'Northampton', 'MA'],
+                              ['01005', '22070', 'Worcester', 'MA']
+                            ]}
+                          />
+
+                          <DataTable 
+                            title="Census"
+                            fields={['ZIP CODE', 'POPULATION', 'HOUSING UNITS', 'MEDIAN HOME VALUE', 'MEDIAN HOUSEHOLD INCOME', 'OCCUPIED HOUSING UNITS', 'POPULATION DENSITY']}
+                            data={[
+                              ['01001', '16769', '7557', '213000', '58733', '7215', '1466'],
+                              ['01002', '29049', '10388', '338900', '54422', '9910', '528'],
+                              ['01005', '5079', '2044', '208500', '68644', '1904', '115'],
+                              ['01007', '14649', '5839', '260000', '71875', '5595', '278'],
+                              ['01008', '1263', '586', '247200', '71635', '503', '23']
+                            ]}
+                          />
+
+                          <Card>
+                            <CardHeader>
+                              <CardTitle>ZipCode</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <Table>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead>ZIP CODE</TableHead>
+                                    <TableHead>CITY</TableHead>
+                                    <TableHead>STATE</TableHead>
+                                    <TableHead>COUNTY</TableHead>
+                                    <TableHead>LATITUDE</TableHead>
+                                    <TableHead>LONGITUDE</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  <TableRow>
+                                    <TableCell>01001</TableCell>
+                                    <TableCell>Agawam</TableCell>
+                                    <TableCell>MA</TableCell>
+                                    <TableCell>HAMPDEN</TableCell>
+                                    <TableCell>42.140549</TableCell>
+                                    <TableCell>-72.788661</TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell>01002</TableCell>
+                                    <TableCell>Amherst</TableCell>
+                                    <TableCell>MA</TableCell>
+                                    <TableCell>HAMPSHIRE</TableCell>
+                                    <TableCell>42.367092</TableCell>
+                                    <TableCell>-72.464571</TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell>01003</TableCell>
+                                    <TableCell>Amherst</TableCell>
+                                    <TableCell>MA</TableCell>
+                                    <TableCell>HAMPSHIRE</TableCell>
+                                    <TableCell>42.369562</TableCell>
+                                    <TableCell>-72.63599</TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell>01004</TableCell>
+                                    <TableCell>Amherst</TableCell>
+                                    <TableCell>MA</TableCell>
+                                    <TableCell>HAMPSHIRE</TableCell>
+                                    <TableCell>42.384494</TableCell>
+                                    <TableCell>-72.513183</TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell>01005</TableCell>
+                                    <TableCell>Barre</TableCell>
+                                    <TableCell>MA</TableCell>
+                                    <TableCell>WORCESTER</TableCell>
+                                    <TableCell>42.32916</TableCell>
+                                    <TableCell>-72.139465</TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </ScrollArea>
+                    )}
+                    {activeTableView === 'metadata' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between">
+                            Dartmouth HSA HRR
+                            <Select value={metadataView} onValueChange={(value: 'table' | 'visualization') => setMetadataView(value)}>
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select view" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="table">Table View</SelectItem>
+                                <SelectItem value="visualization">Visualization</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          {metadataView === 'table' ? <MetadataTable /> : <MetadataVisualization />}
+                        </CardContent>
+                      </Card>
+                    )}
+                    {activeTableView === 'lineage' && (
+                      <Card>
+                        <CardContent>
+                          <p>Show a lineage Diagram</p>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="flex items-center justify-center h-[600px]">
+                  <p className="text-muted-foreground">Apply filters to view data</p>
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+        )
+        }
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
+// import * as React from "react"
+// import { MessageSquare, Cpu, Compass, Plus, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Play, ExternalLink, HelpCircle, Table as TableIcon, FileText, GitBranch, BookOpen, Filter, Calendar, MapPin, Activity, BarChart2, Stethoscope, Users, Briefcase, Building, Hospital, Database, User, Settings, LogOut } from "lucide-react"
+// import { Button } from "@/components/ui/button"
+// import { Input } from "@/components/ui/input"
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+// import { ScrollArea } from "@/components/ui/scroll-area"
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+// import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+// import { Textarea } from "@/components/ui/textarea"
+// import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+// import {
+//   Popover,  PopoverContent,  PopoverTrigger,
+// } from "@/components/ui/popover"
+// import {
+//   Tooltip,  TooltipContent,  TooltipProvider,  TooltipTrigger,
+// } from "@/components/ui/tooltip"
+// import {
+//   Select,SelectContent,  SelectItem,  SelectTrigger,  SelectValue,
+// } from "@/components/ui/select"
+// import { Checkbox } from "@/components/ui/checkbox"
+// import { Label } from "@/components/ui/label"
+// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+// import {
+//   DropdownMenu,  DropdownMenuContent,  DropdownMenuItem,  DropdownMenuLabel,  DropdownMenuSeparator,  DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu"
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+// export default function Component() {
+//   const [isNavOpen, setIsNavOpen] = React.useState(true)
+//   const [activePane, setActivePane] = React.useState<'chat' | 'build' | 'explore'>('chat')
+//   const [isSecondPaneOpen, setIsSecondPaneOpen] = React.useState(true)
+//   const [isLensOpen, setIsLensOpen] = React.useState(true)
+//   const [chatMessages, setChatMessages] = React.useState([
+//     { role: "system", content: "How can I assist you with your data analysis today?" },
+//   ])
+//   const [sqlQuery, setSqlQuery] = React.useState("")
+//   const [activeTableView, setActiveTableView] = React.useState<'table' | 'records' | 'metadata' | 'lineage'>('table')
+//   const [exploreMode, setExploreMode] = React.useState<'reference' | 'filters'>('reference')
+
+//   const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault()
+//     const input = e.currentTarget.elements.namedItem('userInput') as HTMLInputElement
+//     if (input.value.trim()) {
+//       const newMessage = { role: 'user', content: input.value }
+//       setChatMessages([...chatMessages, newMessage])
+//       // Simulate AI response (in a real app, this would be an API call)
+//       setTimeout(() => {
+//         setChatMessages(prev => [...prev, { role: 'system', content: "Based on your question, here's a SQL query that might help:" }])
+//         setSqlQuery("SELECT screening_method, COUNT(*) as total_screenings, AVG(patient_age) as avg_age\nFROM colorectal_screenings\nWHERE screening_date BETWEEN '2023-01-01' AND '2023-12-31'\nGROUP BY screening_method\nORDER BY total_screenings DESC;")
+//       }, 1000)
+//       input.value = ''
+//     }
+//   }
+
+//   return (
+//     <div className="flex h-screen bg-background">
+//       {/* Left Navigation */}
+//       <nav className={`${isNavOpen ? 'w-44' : 'w-12'} border-r transition-all duration-300 ease-in-out flex flex-col`}>
+//         <div className="p-2 flex items-center justify-between">
+//           {isNavOpen && <h2 className="text-lg font-bold">SemantIQ</h2>}
+//           <Button
+//             variant="ghost"
+//             size="icon"
+//             onClick={() => setIsNavOpen(!isNavOpen)}
+//             className="h-6 w-6"
+//             aria-label={isNavOpen ? "Collapse navigation" : "Expand navigation"}
+//           >
+//             {isNavOpen ? <ChevronLeft className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+//           </Button>
+//         </div>
+//         {isNavOpen ? (
+//           <div className="flex-1 overflow-auto p-2">
+//             <ul className="space-y-1">
+//               <li>
+//                 <Button
+//                   variant="ghost"
+//                   size="sm"
+//                   className="w-full justify-start"
+//                   onClick={() => setActivePane('chat')}
+//                 >
+//                   <MessageSquare className="mr-1 h-3 w-3" /> Chat
+//                 </Button>
+//               </li>
+//               <li>
+//                 <Button
+//                   variant="ghost"
+//                   size="sm"
+//                   className="w-full justify-start"
+//                   onClick={() => setActivePane('build')}
+//                 >
+//                   <Cpu className="mr-1 h-3 w-3" /> Build
+//                 </Button>
+//               </li>
+//               <li>
+//                 <Button
+//                   variant="ghost"
+//                   size="sm"
+//                   className="w-full justify-start"
+//                   onClick={() => setActivePane('explore')}
+//                 >
+//                   <Compass className="mr-1 h-3 w-3" /> Explore
+//                 </Button>
+//               </li>
+//             </ul>
+//             <Button size="sm" className="w-full mt-2"><Plus className="mr-1 h-3 w-3" /> New Project</Button>
+//           </div>
+//         ) : (
+//           <div className="flex-1 flex flex-col items-center pt-2 space-y-2">
+//             <Button variant="ghost" size="icon" className="h-6 w-6" aria-label="Chat" onClick={() => setActivePane('chat')}><MessageSquare className="h-3 w-3" /></Button>
+//             <Button variant="ghost" size="icon" className="h-6 w-6" aria-label="Build" onClick={() => setActivePane('build')}><Cpu className="h-3 w-3" /></Button>
+//             <Button variant="ghost" size="icon" className="h-6 w-6" aria-label="Explore" onClick={() => setActivePane('explore')}><Compass className="h-3 w-3" /></Button>
+//           </div>
+//         )}
+//         {/* Profile Button */}
+//         <div className="p-2">
+//           <DropdownMenu>
+//             <DropdownMenuTrigger asChild>
+//               <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full">
+//                 <Avatar>
+//                   <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+//                   <AvatarFallback>SC</AvatarFallback>
+//                 </Avatar>
+//               </Button>
+//             </DropdownMenuTrigger>
+//             <DropdownMenuContent className="w-56" align="end" forceMount>
+//               <DropdownMenuLabel className="font-normal">
+//                 <div className="flex flex-col space-y-1">
+//                   <p className="text-sm font-medium leading-none">shadcn</p>
+//                   <p className="text-xs leading-none text-muted-foreground">
+//                     m@example.com
+//                   </p>
+//                 </div>
+//               </DropdownMenuLabel>
+//               <DropdownMenuSeparator />
+//               <DropdownMenuItem>
+//                 <User className="mr-2 h-4 w-4" />
+//                 <span>Profile</span>
+//               </DropdownMenuItem>
+//               <DropdownMenuItem>
+//                 <Settings className="mr-2 h-4 w-4" />
+//                 <span>Settings</span>
+//               </DropdownMenuItem>
+//               <DropdownMenuSeparator />
+//               <DropdownMenuItem>
+//                 <LogOut className="mr-2 h-4 w-4" />
+//                 <span>Log out</span>
+//               </DropdownMenuItem>
+//             </DropdownMenuContent>
+//           </DropdownMenu>
+//         </div>
+//       </nav>
+
+//       {/* Second Pane (Chat, Build, or Explore) */}
+//       <aside className={`${isSecondPaneOpen ? 'w-80' : 'w-16'} border-r transition-all duration-300 ease-in-out flex flex-col`}>
+//         <div className="p-4 flex items-center justify-between">
+//           {isSecondPaneOpen && (
+//             <h2 className="text-xl font-semibold">
+//               {activePane === 'chat' ? 'Copilot' : activePane === 'build' ? 'Filters' : 'Explore'}
+//             </h2>
+//           )}
+//           <Button
+//             variant="ghost"
+//             size="icon"
+//             onClick={() => setIsSecondPaneOpen(!isSecondPaneOpen)}
+//             className="h-8 w-8"
+//             aria-label={isSecondPaneOpen ? "Collapse pane" : "Expand pane"}
+//           >
+//             {isSecondPaneOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+//           </Button>
+//         </div>
+//         {isSecondPaneOpen && (
+//           activePane === 'chat' ? (
+//             <>
+//               <ScrollArea className="flex-1 px-4">
+//                 {chatMessages.map((message, index) => (
+//                   <div key={index} className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
+//                     <div className={`inline-block p-2 rounded-lg ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+//                       {message.content}
+//                     </div>
+//                   </div>
+//                 ))}
+//               </ScrollArea>
+//               <form onSubmit={handleSendMessage} className="p-4">
+//                 <Input id="userInput" placeholder="Type your message..." className="mb-2" />
+//                 <Button type="submit" className="w-full">Send</Button>
+//               </form>
+//             </>
+//           ) : activePane === 'build' ? (
+//             <ScrollArea className="flex-1">
+//               <div className="p-4 space-y-4">
+//                 <Accordion type="single" collapsible className="w-full">
+//                   <AccordionItem value="temporal">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <Calendar className="mr-2 h-4 w-4" />
+//                         Temporal
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-4">
+//                         <div className="space-y-2">
+//                           <Label htmlFor="time-basis">Select Time Basis</Label>
+//                           <Select>
+//                             <SelectTrigger id="time-basis">
+//                               <SelectValue placeholder="Select time basis" />
+//                             </SelectTrigger>
+//                             <SelectContent>
+//                               <SelectItem value="admission">Admission Date</SelectItem>
+//                               <SelectItem value="discharge">Discharge Date</SelectItem>
+//                               <SelectItem value="procedure">Procedure Date</SelectItem>
+//                               <SelectItem value="birthdate">Birth Date</SelectItem>
+//                             </SelectContent>
+//                           </Select>
+//                         </div>
+//                         <div className="space-y-2">
+//                           <Label htmlFor="time-period">Select Time Period</Label>
+//                           <Select>
+//                             <SelectTrigger id="time-period">
+//                               <SelectValue placeholder="Select time period" />
+//                             </SelectTrigger>
+//                             <SelectContent>
+//                               <SelectItem value="last-30-days">Last 30 Days</SelectItem>
+//                               <SelectItem value="last-90-days">Last 90 Days</SelectItem>
+//                               <SelectItem value="last-year">Last Year</SelectItem>
+//                               <SelectItem value="custom">Custom Range</SelectItem>
+//                             </SelectContent>
+//                           </Select>
+//                         </div>
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="geographical">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <MapPin className="mr-2 h-4 w-4" />
+//                         Geographical
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-4">
+//                         <div className="space-y-2">
+//                           <Label htmlFor="geography-basis">Select Geography Basis</Label>
+//                           <Select>
+//                             <SelectTrigger id="geography-basis">
+//                               <SelectValue placeholder="Select geography basis" />
+//                             </SelectTrigger>
+//                             <SelectContent>
+//                               <SelectItem value="patient">Patient Location</SelectItem>
+//                               <SelectItem value="provider">Provider Location</SelectItem>
+//                               <SelectItem value="facility">Facility Location</SelectItem>
+//                             </SelectContent>
+//                           </Select>
+//                         </div>
+//                         <div className="space-y-2">
+//                           <Label htmlFor="geography-level">Select Geography Level</Label>
+//                           <Select>
+//                             <SelectTrigger id="geography-level">
+//                               <SelectValue placeholder="Select geography level" />
+//                             </SelectTrigger>
+//                             <SelectContent>
+//                               <SelectItem value="state">State</SelectItem>
+//                               <SelectItem value="county">County</SelectItem>
+//                               <SelectItem value="zip">ZIP Code</SelectItem>
+//                             </SelectContent>
+//                           </Select>
+//                         </div>
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="activities">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <Activity className="mr-2 h-4 w-4" />
+//                         Activities
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-2">
+//                         <Label>Select Activities</Label>
+//                         {['Screenings', 'Procedures', 'Medications', 'Lab Tests'].map((activity) => (
+//                           <div key={activity} className="flex items-center space-x-2">
+
+//                             <Checkbox id={`activity-${activity.toLowerCase()}`} />
+//                             <Label htmlFor={`activity-${activity.toLowerCase()}`}>{activity}</Label>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="unit-of-measure">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <BarChart2 className="mr-2 h-4 w-4" />
+//                         Unit of Measure
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-2">
+//                         <Label htmlFor="unit-of-measure">Select Unit of Measure</Label>
+//                         <Select>
+//                           <SelectTrigger id="unit-of-measure">
+//                             <SelectValue placeholder="Select unit of measure" />
+//                           </SelectTrigger>
+//                           <SelectContent>
+//                             <SelectItem value="count">Count</SelectItem>
+//                             <SelectItem value="percentage">Percentage</SelectItem>
+//                             <SelectItem value="rate">Rate per 1000</SelectItem>
+//                           </SelectContent>
+//                         </Select>
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="conditions">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <Stethoscope className="mr-2 h-4 w-4" />
+//                         Conditions
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-2">
+//                         <Label>Select Conditions</Label>
+//                         {['Diabetes', 'Hypertension', 'Asthma', 'COPD'].map((condition) => (
+//                           <div key={condition} className="flex items-center space-x-2">
+//                             <Checkbox  id={`condition-${condition.toLowerCase()}`} />
+//                             <Label htmlFor={`condition-${condition.toLowerCase()}`}>{condition}</Label>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="cohort">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <Users className="mr-2 h-4 w-4" />
+//                         Cohort
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-2">
+//                         <Label htmlFor="cohort">Select Cohort</Label>
+//                         <Select>
+//                           <SelectTrigger id="cohort">
+//                             <SelectValue placeholder="Select cohort" />
+//                           </SelectTrigger>
+//                           <SelectContent>
+//                             <SelectItem value="all-patients">All Patients</SelectItem>
+//                             <SelectItem value="pediatric">Pediatric</SelectItem>
+//                             <SelectItem value="adult">Adult</SelectItem>
+//                             <SelectItem value="geriatric">Geriatric</SelectItem>
+//                           </SelectContent>
+//                         </Select>
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="specialty-taxonomy">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <Briefcase className="mr-2 h-4 w-4" />
+//                         Specialty Taxonomy
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-2">
+//                         <Label>Select Specialties</Label>
+//                         {['Primary Care', 'Cardiology', 'Oncology', 'Neurology'].map((specialty) => (
+//                           <div key={specialty} className="flex items-center space-x-2">
+//                             <Checkbox id={`specialty-${specialty.toLowerCase().replace(' ', '-')}`} />
+//                             <Label htmlFor={`specialty-${specialty.toLowerCase().replace(' ', '-')}`}>{specialty}</Label>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="provider">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <Building className="mr-2 h-4 w-4" />
+//                         Provider
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-2">
+//                         <Label htmlFor="provider">Select Provider</Label>
+//                         <Select>
+//                           <SelectTrigger id="provider">
+//                             <SelectValue placeholder="Select provider" />
+//                           </SelectTrigger>
+//                           <SelectContent>
+//                             <SelectItem value="all">All Providers</SelectItem>
+//                             <SelectItem value="hospital-a">Hospital A</SelectItem>
+//                             <SelectItem value="clinic-b">Clinic B</SelectItem>
+//                             <SelectItem value="practice-c">Practice C</SelectItem>
+//                           </SelectContent>
+//                         </Select>
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                   <AccordionItem value="setting">
+//                     <AccordionTrigger>
+//                       <div className="flex items-center">
+//                         <Hospital className="mr-2 h-4 w-4" />
+//                         Setting
+//                       </div>
+//                     </AccordionTrigger>
+//                     <AccordionContent>
+//                       <div className="space-y-2">
+//                         <Label>Select Settings</Label>
+//                         {['Inpatient', 'Outpatient', 'Emergency', 'Ambulatory'].map((setting) => (
+//                           <div key={setting} className="flex items-center space-x-2">
+//                             <Checkbox id={`setting-${setting.toLowerCase()}`} />
+//                             <Label htmlFor={`setting-${setting.toLowerCase()}`}>{setting}</Label>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </AccordionContent>
+//                   </AccordionItem>
+//                 </Accordion>
+//                 <Button className="w-full mt-4">
+//                   <Filter className="mr-2 h-4 w-4" />
+//                   Apply Filters
+//                 </Button>
+//               </div>
+//             </ScrollArea>
+//           ) : (
+//             <div className="p-4 space-y-4">
+//               <div className="space-y-2">
+//                 <Label htmlFor="explore-mode">Select Mode</Label>
+//                 <Select onValueChange={(value) => setExploreMode(value as 'reference' | 'filters')}>
+//                   <SelectTrigger id="explore-mode">
+//                     <SelectValue placeholder="Select mode" />
+//                   </SelectTrigger>
+//                   <SelectContent>
+//                     <SelectItem value="reference">Reference Table</SelectItem>
+//                     <SelectItem value="filters">Filters</SelectItem>
+//                   </SelectContent>
+//                 </Select>
+//               </div>
+//               {exploreMode === 'reference' ? (
+//                 <div className="space-y-2">
+//                   <Label htmlFor="reference-table">Select Reference Table</Label>
+//                   <Select>
+//                     <SelectTrigger id="reference-table">
+//                       <SelectValue placeholder="Select reference table" />
+//                     </SelectTrigger>
+//                     <SelectContent>
+//                       <SelectItem value="patients">Patients</SelectItem>
+//                       <SelectItem value="providers">Providers</SelectItem>
+//                       <SelectItem value="procedures">Procedures</SelectItem>
+//                       <SelectItem value="diagnoses">Diagnoses</SelectItem>
+//                     </SelectContent>
+//                   </Select>
+//                 </div>
+//               ) : (
+//                 <div className="space-y-4">
+//                   <div className="space-y-2">
+//                     <Label htmlFor="geographical-filter">Geographical</Label>
+//                     <Select>
+//                       <SelectTrigger id="geographical-filter">
+//                         <SelectValue placeholder="Select geographical filter" />
+//                       </SelectTrigger>
+//                       <SelectContent>
+//                         <SelectItem value="state">State</SelectItem>
+//                         <SelectItem value="county">County</SelectItem>
+//                         <SelectItem value="zip">ZIP Code</SelectItem>
+//                       </SelectContent>
+//                     </Select>
+//                   </div>
+//                   <div className="space-y-2">
+//                     <Label htmlFor="activity-filter">Activity</Label>
+//                     <Select>
+//                       <SelectTrigger id="activity-filter">
+//                         <SelectValue placeholder="Select activity filter" />
+//                       </SelectTrigger>
+//                       <SelectContent>
+//                         <SelectItem value="screenings">Screenings</SelectItem>
+//                         <SelectItem value="procedures">Procedures</SelectItem>
+//                         <SelectItem value="medications">Medications</SelectItem>
+//                         <SelectItem value="lab-tests">Lab Tests</SelectItem>
+//                       </SelectContent>
+//                     </Select>
+//                   </div>
+//                   <div className="space-y-2">
+//                     <Label htmlFor="condition-filter">Condition</Label>
+//                     <Select>
+//                       <SelectTrigger id="condition-filter">
+//                         <SelectValue placeholder="Select condition filter" />
+//                       </SelectTrigger>
+//                       <SelectContent>
+//                         <SelectItem value="diabetes">Diabetes</SelectItem>
+//                         <SelectItem value="hypertension">Hypertension</SelectItem>
+//                         <SelectItem value="asthma">Asthma</SelectItem>
+//                         <SelectItem value="copd">COPD</SelectItem>
+//                       </SelectContent>
+//                     </Select>
+//                   </div>
+//                 </div>
+//               )}
+//               <Button className="w-full mt-4">
+//                 {exploreMode === 'reference' ? (
+//                   <>
+//                     <Database className="mr-2 h-4 w-4" />
+//                     View Reference Table
+//                   </>
+//                 ) : (
+//                   <>
+//                     <Filter className="mr-2 h-4 w-4" />
+//                     Apply Filters
+//                   </>
+//                 )}
+//               </Button>
+//             </div>
+//           )
+//         )}
+//       </aside>
+
+//       {/* Main Content Area (Right Pane) */}
+//       <main className="flex-1 p-6 overflow-auto">
+//         <div className="mb-4 flex justify-between items-center">
+//           <h1 className="text-2xl font-bold">SQL Query Builder</h1>
+//           <Button variant="outline" size="sm"><Play className="mr-2 h-4 w-4" /> Run Query</Button>
+//         </div>
+//         <Tabs defaultValue="query">
+//           <TabsList className="grid w-full grid-cols-2">
+//             <TabsTrigger value="query">Query</TabsTrigger>
+//             <TabsTrigger value="tableView">Table View</TabsTrigger>
+//           </TabsList>
+//           <TabsContent value="query">
+//             <Card>
+//               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+//                 <CardTitle>SQL Query</CardTitle>
+//                 <TooltipProvider>
+//                   <Tooltip>
+//                     <TooltipTrigger asChild>
+//                       <Popover>
+//                         <PopoverTrigger asChild>
+//                           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+//                             <BookOpen className="h-5 w-5" />
+//                             <span className="sr-only">Open data dictionary</span>
+//                           </Button>
+//                         </PopoverTrigger>
+//                         <PopoverContent className="w-[400px] max-h-[600px] overflow-y-auto">
+//                           <div className="grid gap-4">
+//                             <div className="space-y-2">
+//                               <h4 className="font-medium leading-none">Data Dictionary</h4>
+//                               <p className="text-sm text-muted-foreground">
+//                                 Explanation of the data elements in your query.
+//                               </p>
+//                             </div>
+//                             <div className="grid gap-2">
+//                               <div className="grid grid-cols-3 items-center gap-4">
+//                                 <span className="text-sm font-medium">screening_method</span>
+//                                 <span className="col-span-2 text-sm">The type of colorectal cancer screening performed</span>
+//                               </div>
+//                               <div className="grid grid-cols-3 items-center gap-4">
+//                                 <span className="text-sm font-medium">total_screenings</span>
+//                                 <span className="col-span-2 text-sm">The count of screenings for each method</span>
+//                               </div>
+//                               <div className="grid grid-cols-3 items-center gap-4">
+//                                 <span className="text-sm font-medium">avg_age</span>
+//                                 <span className="col-span-2 text-sm">The average age of patients for each screening method</span>
+//                               </div>
+//                               <div className="grid grid-cols-3 items-center gap-4">
+//                                 <span className="text-sm font-medium">screening_date</span>
+//                                 <span className="col-span-2 text-sm">The date when the screening was performed</span>
+//                               </div>
+//                               <div className="grid grid-cols-3 items-center gap-4">
+//                                 <span className="text-sm font-medium">patient_age</span>
+//                                 <span className="col-span-2 text-sm">The age of the patient at the time of screening</span>
+//                               </div>
+//                             </div>
+//                             <div className="space-y-2">
+//                               <h4 className="font-medium leading-none">Additional Information</h4>
+//                               <p className="text-sm text-muted-foreground">
+//                                 The colorectal_screenings table contains information about various screening methods used for colorectal cancer detection. It includes data on the type of screening, when it was performed, and demographic information about the patients.
+//                               </p>
+//                             </div>
+//                           </div>
+//                         </PopoverContent>
+//                       </Popover>
+//                     </TooltipTrigger>
+//                     <TooltipContent>
+//                       <p>Open Data Dictionary</p>
+//                     </TooltipContent>
+//                   </Tooltip>
+//                 </TooltipProvider>
+//               </CardHeader>
+//               <CardContent>
+//                 <Textarea
+//                   value={sqlQuery}
+//                   onChange={(e) => setSqlQuery(e.target.value)}
+//                   placeholder="Your SQL query will appear here..."
+//                   className="min-h-[200px] font-mono"
+//                 />
+//                 <div className="mt-4">
+//                   <h4 className="text-sm font-medium mb-2">Query Explanation</h4>
+//                   <p className="text-sm text-muted-foreground">This query does the following:</p>
+//                   <ol className="list-decimal pl-5 space-y-2 text-sm text-muted-foreground">
+//                     <li>Selects the screening method, counts the total screenings, and calculates the average patient age for each method.</li>
+//                     <li>Filters the data for the year 2023.</li>
+//                     <li>Groups the results by screening method.</li>
+//                     <li>Orders the results by the total number of screenings in descending order.</li>
+//                   </ol>
+//                 </div>
+//               </CardContent>
+//             </Card>
+//           </TabsContent>
+//           <TabsContent value="tableView">
+//             <Card>
+//               <CardHeader>
+//                 <CardTitle className="flex items-center justify-between">
+//                   Table View
+//                   <TooltipProvider>
+//                     <div className="flex space-x-2">
+//                       <Tooltip>
+//                         <TooltipTrigger asChild>
+//                           <Button
+//                             variant={activeTableView === 'table' ? 'secondary' : 'ghost'}
+//                             size="sm"
+//                             onClick={() => setActiveTableView('table')}
+//                             aria-label="Show table"
+//                           >
+//                             <TableIcon className="h-4 w-4" />
+//                           </Button>
+//                         </TooltipTrigger>
+//                         <TooltipContent>
+//                           <p>Show Table</p>
+//                         </TooltipContent>
+//                       </Tooltip>
+//                       <Tooltip>
+//                         <TooltipTrigger asChild>
+//                           <Button
+//                             variant={activeTableView === 'records' ? 'secondary' : 'ghost'}
+//                             size="sm"
+//                             onClick={() => setActiveTableView('records')}
+//                             aria-label="Show records"
+//                           >
+//                             <FileText className="h-4 w-4" />
+//                           </Button>
+//                         </TooltipTrigger>
+//                         <TooltipContent>
+//                           <p>View Records</p>
+//                         </TooltipContent>
+//                       </Tooltip>
+//                       <Tooltip>
+//                         <TooltipTrigger asChild>
+//                           <Button
+//                             variant={activeTableView === 'metadata' ? 'secondary' : 'ghost'}
+//                             size="sm"
+//                             onClick={() => setActiveTableView('metadata')}
+//                             aria-label="Show metadata"
+//                           >
+//                             <HelpCircle className="h-4 w-4" />
+//                           </Button>
+//                         </TooltipTrigger>
+//                         <TooltipContent>
+//                           <p>Show Metadata</p>
+//                         </TooltipContent>
+//                       </Tooltip>
+//                       <Tooltip>
+//                         <TooltipTrigger asChild>
+//                           <Button
+//                             variant={activeTableView === 'lineage' ? 'secondary' : 'ghost'}
+//                             size="sm"
+//                             onClick={() => setActiveTableView('lineage')}
+//                             aria-label="Show lineage"
+//                           >
+//                             <GitBranch className="h-4 w-4" />
+//                           </Button>
+//                         </TooltipTrigger>
+//                         <TooltipContent>
+//                           <p>Show Lineage</p>
+//                         </TooltipContent>
+//                       </Tooltip>
+//                     </div>
+//                   </TooltipProvider>
+//                 </CardTitle>
+//               </CardHeader>
+//               <CardContent>
+//                 {activeTableView === 'table' && (
+//                   <Table>
+//                     <TableHeader>
+//                       <TableRow>
+//                         <TableHead>Screening Method</TableHead><TableHead>Total Screenings</TableHead>                        <TableHead>Average Age</TableHead>
+//                       </TableRow>
+//                     </TableHeader>
+//                     <TableBody>
+//                       <TableRow>
+//                         <TableCell>Colonoscopy</TableCell>                        <TableCell>1500</TableCell>                        <TableCell>55.3</TableCell>
+//                       </TableRow>
+//                       <TableRow>                        <TableCell>FIT</TableCell>                        <TableCell>2000</TableCell>                        <TableCell>52.7</TableCell>
+//                       </TableRow>
+//                       <TableRow>
+//                         <TableCell>Sigmoidoscopy</TableCell>                        <TableCell>800</TableCell>                        <TableCell>58.1</TableCell>
+//                       </TableRow>
+//                     </TableBody>
+//                   </Table>
+//                 )}
+//                 {activeTableView === 'records' && (
+//                   <div>
+//                     <p>This section would display individual records from the query results.</p>
+//                     <p className="text-muted-foreground">For privacy reasons, individual patient records are not shown in this demo.</p>
+//                   </div>
+//                 )}
+//                 {activeTableView === 'metadata' && (
+//                   <ul className="list-disc pl-5">
+//                     <li>Table: colorectal_screenings</li>
+//                     <li>Columns: screening_method, screening_date, patient_age</li>
+//                     <li>Date Range: 2023-01-01 to 2023-12-31</li>
+//                     <li>Aggregations: COUNT(*), AVG(patient_age)</li>
+//                   </ul>
+//                 )}
+//                 {activeTableView === 'lineage' && (
+//                   <div>
+//                     <p>This section would show the data lineage diagram for the tables used in the query.</p>
+//                     <p className="text-muted-foreground">Lineage diagram not available in this demo.</p>
+//                   </div>
+//                 )}
+//               </CardContent>
+//             </Card>
+//           </TabsContent>
+//         </Tabs>
+
+//         {/* Your personalized lens */}
+//         <Collapsible
+//           open={isLensOpen}
+//           onOpenChange={setIsLensOpen}
+//           className="mt-4 space-y-2"
+//         >
+//           <div className="flex items-center justify-between space-x-4 px-4">
+//             <h2 className="text-lg font-semibold">Your personalized lens</h2>
+//             <CollapsibleTrigger asChild>
+//               <Button variant="ghost" size="sm" className="w-9 p-0">
+//                 {isLensOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+//                 <span className="sr-only">Toggle personalized lens</span>
+//               </Button>
+//             </CollapsibleTrigger>
+//           </div>
+//           <CollapsibleContent className="space-y-2">
+//             <Card>
+//               <CardHeader>
+//                 <CardTitle>AI-Generated Insights</CardTitle>
+//               </CardHeader>
+//               <CardContent>
+//                 <ul className="space-y-4">
+//                   <li>
+//                     <a href="https://www.mayoclinic.org/tests-procedures/colon-cancer-screening/about/pac-20385268" target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:underline">
+//                       Mayo Clinic: Colon cancer screening
+//                       <ExternalLink className="ml-1 h-4 w-4" />
+//                     </a>
+//                   </li>
+//                   <li>
+//                     <a  href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/colon-cancer/colorectal-cancer-screening" target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:underline">
+//                       Johns Hopkins Medicine: Colorectal Cancer Screening
+//                       <ExternalLink className="ml-1 h-4 w-4" />
+//                     </a>
+//                   </li>
+//                   <li className="pt-2">
+//                     <p className="font-semibold">Related Study Summary:</p>
+//                     <p className="text-sm text-muted-foreground">
+//                       A recent study published in the Journal of Gastroenterology (2023) analyzed colorectal screening methods and their effectiveness. The study found that non-invasive methods like FIT (Fecal Immunochemical Test) saw a 20% increase in patient compliance compared to traditional colonoscopies. However, colonoscopies remained the most effective at detecting early-stage colorectal cancer. This aligns with the trend observed in your query results, suggesting a shift in screening method preferences and the importance of analyzing both the quantity of screenings and their effectiveness.
+//                     </p>
+//                   </li>
+//                 </ul>
+//               </CardContent>
+//             </Card>
+//           </CollapsibleContent>
+//         </Collapsible>
+//       </main>
+//     </div>
+//   )
+// }
