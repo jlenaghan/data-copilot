@@ -1401,7 +1401,7 @@ export default function Component() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
                         <ProcessedData
                           title="Geography"
-                          description="SemantIQ data model and SUPER JOB MANIK cleanselite"
+                          description="SemantIQ data model and cleanselite"
                           date="20241005 date of creation"
                         />
                         <ProcessedData
