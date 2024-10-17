@@ -1,8 +1,8 @@
 # Clone the repository
 
 ```
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/jlenaghan/data-copilot
+cd data-copilot
 ```
 
 # Check if Node.js and npm are installed
