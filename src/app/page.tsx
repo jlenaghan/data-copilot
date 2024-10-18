@@ -360,9 +360,11 @@ export default function Component() {
 
   const fetchSQLResults = async (query: string) => {
     console.log("Fetching SQL results:", query);
+    const useLocalDB = process.env.NEXT_PUBLIC_USE_LOCAL_DB === 'true';
+    const BASE_URL = useLocalDB ? process.env.NEXT_PUBLIC_LOCAL_BASE_URL : process.env.NEXT_PUBLIC_AZURE_BASE_URL;  
     try {
       const response = await fetch(
-        "https://semantiqhealthwebapi.jollydesert-76d39b1d.eastus.azurecontainerapps.io/api/sl_execute_sql",
+        `${BASE_URL}api/sl_execute_sql`,
         {
           method: "POST",
           headers: {
@@ -433,7 +435,7 @@ export default function Component() {
               "Based on your question, here's a SQL query that might help:",
           },
         ]);
-        setSqlQuery("SELECT * FROM REF_HSA_HRR limit 10;");
+        //setSqlQuery("SELECT * FROM REF_HSA_HRR limit 10;");
       }, 1000);
     } else {
       console.error("Input element is empty or not found.");
