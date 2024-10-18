@@ -1706,8 +1706,76 @@ export default function Component() {
                     {activeTableView === 'lineage' && (
                       <Card>
                         <CardContent>
-                          <p>Show a lineage Diagram</p>
-                        </CardContent>
+                        <div className="flex flex-col items-center space-y-4 p-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <DataSource
+                          title="zipcodes_2024Q3"
+                          source="United States Postal Service"
+                          date="20240930 date of record"
+                        />
+                        <DataSource
+                          title="ziphsahrr19"
+                          source="Dartmouth Atlas"
+                          date="20190901 date of record"
+                        />
+                        <DataSource
+                          title="ziptocensus2020"
+                          source="Dartmouth Atlas"
+                          date="20190901 date of record"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <ProcessedData
+                          title="Geography"
+                          description="SemantIQ data model and cleanselite"
+                          date="20241005 date of creation"
+                        />
+                        <ProcessedData
+                          title="Dartmouth Atlas"
+                          description="SemantIQ data model and cleanselite"
+                          date="20241003 date of creation"
+                        />
+                        <ProcessedData
+                          title="Census 2020"
+                          description="SemantIQ data model and cleanselite"
+                          date="20241006 date of creation"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                        <ArrowDown className="mx-auto text-primary" size={24} />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                        <Card className="w-full max-w-[300px] bg-secondary">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-lg">
+                              Geography Extract
+                            </CardTitle>
+                          </CardHeader>
+                        </Card>
+                        <Card className="w-full max-w-[300px] bg-secondary">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-lg">
+                              HSA HRR Extract
+                            </CardTitle>
+                          </CardHeader>
+                        </Card>
+                        <Card className="w-full max-w-[300px] bg-secondary">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-lg">
+                              Census Extract
+                            </CardTitle>
+                          </CardHeader>
+                        </Card>
+                      </div>
+                    </div>
+</CardContent>
                       </Card>
                     )}
                   </CardContent>
