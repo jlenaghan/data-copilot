@@ -1788,14 +1788,37 @@ export default function Component() {
                     </div>
                   )}
                   {activeTableView === "metadata" && (
-                    <ul className="list-disc pl-5">
-                      <li>Table: colorectal_screenings</li>
-                      <li>
-                        Columns: screening_method, screening_date, patient_age
-                      </li>
-                      <li>Date Range: 2023-01-01 to 2023-12-31</li>
-                      <li>Aggregations: COUNT(*), AVG(patient_age)</li>
-                    </ul>
+                    // build chat metadata
+
+                    <>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between">
+                            Dartmouth HSA HRR
+                            <Select value={metadataView} onValueChange={(value: 'table' | 'visualization') => setMetadataView(value)}>
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select view" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="table">Table View</SelectItem>
+                                <SelectItem value="visualization">Visualization</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          {metadataView === 'table' ? <MetadataTable /> : <MetadataVisualization />}
+                        </CardContent>
+                      </Card>
+                      {/* <ul className="list-disc pl-5">
+                        <li>Table: colorectal_screenings</li>
+                        <li>
+                          Columns: screening_method, screening_date, patient_age
+                        </li>
+                        <li>Date Range: 2023-01-01 to 2023-12-31</li>
+                        <li>Aggregations: COUNT(*), AVG(patient_age)</li>
+                      </ul> */}
+                      </>
                   )}
                   {activeTableView === "lineage" && (
                     <div className="flex flex-col items-center space-y-4 p-4">
