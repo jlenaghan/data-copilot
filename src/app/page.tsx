@@ -447,8 +447,8 @@ function MetadataTable() {
               <TableCell>{field.foreignKey ? 'Yes' : 'No'}</TableCell>
               <TableCell>{field.primaryKey ? 'Yes' : 'No'}</TableCell>
               <TableCell>{field.nullable ? 'Yes' : 'No'}</TableCell>
-              <TableCell>{field.format}</TableCell>
-              <TableCell>{field.description}</TableCell>
+              <TableCell >{field.format}</TableCell>
+              <TableCell style={{ width: '110%' }}>{field.description}</TableCell>
               <TableCell>{field.uniqueValues}</TableCell>
               <TableCell>{field.commonValues}</TableCell>
               <TableCell>{field.nullPercentage}</TableCell>
@@ -586,6 +586,41 @@ export default function Component() {
   const [selectedCensusFields, setSelectedCensusFields] = React.useState<string[]>(['ZIP CODE', 'HOUSING UNITS', 'MEDIAN HOUSEHOLD INCOME', 'POPULATION DENSITY', 'POPULATION'])
   const [selectedZipCodeFields, setSelectedZipCodeFields] = React.useState<string[]>(['ZIPCODE', 'CITY', 'STATE'])
 
+  const [selectedNPPESFields, setSelectedNPPESFields] = React.useState<string[]>([
+    'ENTITY TYPE CODE',
+    'PROVIDER BUSINESS PRACTICE LOCATION ADDRESS POSTAL CODE',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 1',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 2',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 3',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 4',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 5',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 6',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 7',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 8',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 9',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 10',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 11',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 12',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 13',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 14',
+    'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 15',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 1',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 2',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 3',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 4',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 5',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 6',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 7',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 8',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 9',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 10',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 11',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 12',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 13',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 14',
+    'HEALTHCARE PROVIDER TAXONOMY CODE 15'
+  ])
+
   const fetchSQLResults = async (query: string) => {
     console.log("Fetching SQL results:", query);
     const useLocalDB = process.env.NEXT_PUBLIC_USE_LOCAL_DB === 'true';
@@ -646,6 +681,19 @@ export default function Component() {
     </Card>
   );
 
+  const coloTableData = [
+    { state_code: 'Colonoscopy', total: 1500, averageAge: 55.3 },
+    { state_code: 'FIT', total: 2000, averageAge: 52.7 },
+    { state_code: 'Sigmoidoscopy', total: 800, averageAge: 58.1 },
+  ];
+
+  const jointTableData = [
+    { method: 'Hips', total: 1500, averageAge: 55.3 },
+    { method: 'Knuckles', total: 2000, averageAge: 52.7 },
+    { method: 'Knees', total: 800, averageAge: 58.1 },
+  ];
+
+
   const handleSendMessage = (event) => {
     event.preventDefault();
     const userInput = event.target.userInput.value;
@@ -657,9 +705,11 @@ export default function Component() {
     if (userInput.includes('colo')) {
       setSqlQuery(COLORECTAL_QUERY);
       updatedMessages.push({ role: 'system', content: 'I have processed this question about colorectal patients. Please see the query I generated to the right.' });
+      setTableData(coloTableData)
     } else if (userInput.includes('joint')) {
       setSqlQuery(JOINT_REPLACEMENT_QUERY);
       updatedMessages.push({ role: 'system', content: 'I have processed this question about joint replacement patients. Please see the query I generated to the right.' });
+      setTableData(jointTableData)
     } else {
       setSqlQuery('');
       setChatMessages([...chatMessages, newMessage, { role: 'system', content: 'Please better specify the question' }]);
@@ -700,6 +750,26 @@ export default function Component() {
     console.log('Exporting all data')
     // You would typically call an API or generate files here
   }
+
+
+  const handleApplyFilters = () => {
+    // Your existing filter logic
+    setShowTableView(true);
+  };
+
+  const handleRunQuery = () => {
+    // Hard-coded table data
+    const hardCodedTableData = [
+      { id: 1, name: 'John Doe', age: 30, city: 'New York' },
+      { id: 2, name: 'Jane Smith', age: 25, city: 'Los Angeles' },
+      { id: 3, name: 'Sam Johnson', age: 35, city: 'Chicago' },
+    ];
+  
+    // Set the table data and show the table view
+    setTableData(hardCodedTableData);
+    setShowTableView(true);
+    setActivePane('chat'); // Ensure the active pane is set to 'explore'
+  };
 
   const navItems = [
     { icon: MessageSquare, label: 'Chat' },
@@ -919,6 +989,7 @@ export default function Component() {
               <form onSubmit={handleSendMessage} className="p-4">
                 <Input
                   id="userInput"
+                  name="userInput"
                   placeholder="Type your message..."
                   className="mb-2"
                 />
@@ -1240,7 +1311,8 @@ export default function Component() {
                 </Button>
               </div>
             </ScrollArea>
-          ) : (
+          ) : ( 
+            //we are in explore mode now
             <ScrollArea className="flex-1">
               <div className="p-4">
               <div className="p-4 space-y-4">
@@ -1249,7 +1321,7 @@ export default function Component() {
                       <AccordionSection key={item.title} title={item.title} icon={item.icon} items={item.items} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
                     ))}
                   </Accordion>
-                  <Button className="w-full mt-4" onClick={() =>setShowTableView(true)}>
+                  <Button className="w-full mt-4" onClick={handleApplyFilters}>
                     <Filter className="mr-2 h-4 w-4" />
                     Apply Filters
                   </Button>
@@ -1378,7 +1450,7 @@ export default function Component() {
                       placeholder="Your SQL query will appear here..."
                       className="min-h-[200px] font-mono"
                     />
-                    <Button type="submit">Run Query</Button>
+                    {/* <Button type="submit" >Run Query</Button> */}
                   </form>
                   <div className="mt-4">
                     <h4 className="text-sm font-medium mb-2">
@@ -1558,50 +1630,150 @@ export default function Component() {
                 </CardHeader>
                 <CardContent>
                   {activeTableView === "table" && (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          {tableData.length > 0 &&
-                            Object.keys(tableData[0]).map((key) => (
-                              <TableHead key={key}>{key}</TableHead>
-                            ))}
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {tableData.map((row, index) => (
-                          <TableRow key={index}>
-                            {Object.values(row).map((value, i) => (
-                              <TableCell key={i}>{value}</TableCell>
-                            ))}
-                          </TableRow>
-                        ))}
-                      </TableBody>
+                      <ScrollArea className="h-[600px]">
+                      <div className="space-y-6">
 
-                      {/* <TableHeader>
-                        <TableRow>
-                          <TableHead>Screening Method</TableHead>
-                          <TableHead>Total Screenings</TableHead>
-                          <TableHead>Average Age</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>Coscopy</TableCell>
-                          <TableCell>1500</TableCell>
-                          <TableCell>55.3</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>FIT</TableCell>
-                          <TableCell>2000</TableCell>
-                          <TableCell>52.7</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Sigmoidoscopy</TableCell>
-                          <TableCell>800</TableCell>
-                          <TableCell>58.1</TableCell>
-                        </TableRow>
-                      </TableBody> */}
-                    </Table>
+                      <Card>
+                          <CardHeader>
+                            <CardTitle>NPPES</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-2 gap-4">
+                              {['NPI',
+'ENTITY TYPE CODE',
+'EMPLOYER IDENTIFICATION NUMBER',
+'PROVIDER ORGANIZATION NAME',
+'PROVIDER LAST NAME',
+'PROVIDER FIRST NAME',
+'PROVIDER CREDENTIAL',
+'PROVIDER OTHER ORGANIZATION NAME',
+'PROVIDER OTHER ORGANIZATION NAME TYPE CODE',
+'PROVIDER OTHER LAST NAME',
+'PROVIDER OTHER FIRST NAME',
+'PROVIDER OTHER CREDENTIAL',
+'PROVIDER FIRST LINE BUSINESS PRACTICE LOCATION ADDRESS',
+'PROVIDER SECOND LINE BUSINESS PRACTICE LOCATION ADDRESS',
+'PROVIDER BUSINESS PRACTICE LOCATION ADDRESS POSTAL CODE',
+'PROVIDER BUSINESS PRACTICE LOCATION ADDRESS TELEPHONE NUMBER',
+'PROVIDER BUSINESS PRACTICE LOCATION ADDRESS FAX NUMBER',
+'PROVIDER ENUMERATION DATE',
+'NPI DEACTIVATION REASON CODE',
+'NPI DEACTIVATION DATE',
+'NPI REACTIVATION DATE',
+'PROVIDER GENDER CODE',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 1',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 2',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 2',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 3',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 3',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 4',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 5',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 6',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 7',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 8',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 9',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 10',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 11',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 12',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 13',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 14',
+'HEALTHCARE PROVIDER PRIMARY TAXONOMY SWITCH 15',
+'HEALTHCARE PROVIDER TAXONOMY CODE 1',
+'HEALTHCARE PROVIDER TAXONOMY CODE 2',
+'HEALTHCARE PROVIDER TAXONOMY CODE 3',
+'HEALTHCARE PROVIDER TAXONOMY CODE 4',
+'HEALTHCARE PROVIDER TAXONOMY CODE 5',
+'HEALTHCARE PROVIDER TAXONOMY CODE 6',
+'HEALTHCARE PROVIDER TAXONOMY CODE 7',
+'HEALTHCARE PROVIDER TAXONOMY CODE 8',
+'HEALTHCARE PROVIDER TAXONOMY CODE 9',
+'HEALTHCARE PROVIDER TAXONOMY CODE 10',
+'HEALTHCARE PROVIDER TAXONOMY CODE 11',
+'HEALTHCARE PROVIDER TAXONOMY CODE 12',
+'HEALTHCARE PROVIDER TAXONOMY CODE 13',
+'HEALTHCARE PROVIDER TAXONOMY CODE 14',
+'HEALTHCARE PROVIDER TAXONOMY CODE 15',
+'SOLE PROPRIETOR',
+'PROVIDER TAXONOMY GROUP 1',
+'PROVIDER TAXONOMY GROUP 2',
+'PROVIDER TAXONOMY GROUP 3',
+'PROVIDER TAXONOMY GROUP 4',
+'PROVIDER TAXONOMY GROUP 5'].map((field) => (
+                                <div key={field} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={`nppes-${field.toLowerCase().replace(/\s+/g, '-')}`}
+                                    checked={selectedNPPESFields.includes(field)}
+                                    onCheckedChange={(checked) => {
+                                      setSelectedNPPESFields(prev => checked
+                                        ? [...prev, field]
+                                        : prev.filter(f => f !== field)
+                                      );
+                                    } } />
+                                  <Label htmlFor={`nppes-${field.toLowerCase().replace(/\s+/g, '-')}`}>{field}</Label>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>Dartmouth DINER HSA HRR</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-2 gap-4">
+                              {['ZIP_CODE', 'HRR', 'HRR CITY', 'HRR STATE', 'HSA', 'HSA CITY', 'HSA STATE'].map((field) => (
+                                <div key={field} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={`dartmouth-${field.toLowerCase().replace(/\s+/g, '-')}`}
+                                    checked={selectedDartmouthFields.includes(field)}
+                                    onCheckedChange={(checked) => {
+                                      setSelectedDartmouthFields(prev => checked
+                                        ? [...prev, field]
+                                        : prev.filter(f => f !== field)
+                                      );
+                                    } } />
+                                  <Label htmlFor={`dartmouth-${field.toLowerCase().replace(/\s+/g, '-')}`}>{field}</Label>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>Census</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-2 gap-4">
+                              {[
+                                'ZIP CODE', 'POPULATION', 'HOUSING UNITS', 'MEDIAN HOME VALUE', 'MEDIAN HOUSEHOLD INCOME',
+                                'OCCUPIED HOUSING UNITS', 'POPULATION DENSITY', 'ZIP CODE TYPE', 'EDUCATION LESS THAN HIGH SCHOOL',
+                                'EDUCATION HIGH SCHOOL GRADUATE', 'EDUCATION ASSOCIATE DEGREE', 'EDUCATION BACHELORS OR HIGHER',
+                                'EDUCATION MASTERS OR HIGHER', 'EDUCATION PROFESSIONAL SCHOOL', 'EDUCATION DOCTORATE DEGREE',
+                                'POPULATION MALE', 'POPULATION FEMALE', 'POPULATION WHITE', 'POPULATION BLACK AFRICAN AMERICAN',
+                                'POPULATION AMERICAN INDIAN ALASKA NATIVE', 'POPULATION ASIAN', 'POPULATION NATIVE HAWAIIAN PACIFIC ISLANDER',
+                                'POPULATION OTHER', 'POPULATION TWO OR MORE RACES'
+                              ].map((field) => (
+                                <div key={field} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={`census-${field.toLowerCase().replace(/\s+/g, '-')}`}
+                                    checked={selectedCensusFields.includes(field)}
+                                    onCheckedChange={(checked) => {
+                                      setSelectedCensusFields(prev => checked
+                                        ? [...prev, field]
+                                        : prev.filter(f => f !== field)
+                                      );
+                                    } } />
+                                  <Label htmlFor={`census-${field.toLowerCase().replace(/\s+/g, '-')}`}>{field}</Label>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </ScrollArea>
+                    
                   )}
                   {activeTableView === "records" && (
                     <div>
@@ -1704,8 +1876,8 @@ export default function Component() {
           <Tabs defaultValue="tableView">
             <TabsList className="grid w-full grid-cols-1">
               <TabsTrigger value="tableView">Table View</TabsTrigger>
-            </TabsList>
-            <TabsContent value="tableView">
+            </TabsList> 
+            <TabsContent value="tableView"> 
               {showTableView ? (
                 <Card>
                   <CardHeader>
