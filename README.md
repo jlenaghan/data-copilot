@@ -1,5 +1,7 @@
 # Clone the repository
 
+Get the repo
+
 ```
 git clone https://github.com/jlenaghan/data-copilot
 cd data-copilot
