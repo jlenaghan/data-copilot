@@ -93,6 +93,233 @@ import {
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+const JOINT_REPLACEMENT_QUERY = `
+SELECT
+        "STATE" AS state
+        ,SUM(orthopaedic_surgeon) AS orthopaedic_surgeons
+        ,SUM(orthopaedic_surgery) AS orthopaedic_surgeries
+        ,SUM(population) AS population
+        ,SUM(housing_units) AS housing_units
+        ,SUM(population_male) AS population_male
+        ,SUM(population_female) AS population_female
+        ,SUM(education_less_than_high_school) AS education_less_than_high_school
+        ,SUM(education_high_school_graduate) AS education_high_school_graduate
+        ,SUM(education_associate_degree) AS education_associate_degree
+        ,SUM(education_bachelors_or_higher) AS education_bachelors_or_higher
+        ,SUM(education_professional_school) AS education_professional_school
+        ,SUM(household_income_below_25k) AS household_income_below_25k
+        ,SUM(household_income_25k_to_45k) + SUM(household_income_45k_to_60k) AS household_income_25k_to_60k
+        ,SUM(household_income_60k_to_100k) AS household_income_60k_to_100k
+        ,SUM(household_income_100k_to_150k) + SUM(household_income_150k_to_200k) AS household_income_100k_to_200k
+        ,SUM(household_income_above_200k) AS household_income_above_200k
+        ,SUM(population_white) AS population_white
+        ,SUM(population_black_african_american) AS population_black_african_american
+        ,SUM(population_american_indian_alaska_native) AS population_american_indian_alaska_native
+        ,SUM(population_asian) AS population_asian
+        ,SUM(population_native_hawaiian_pacific_islander) AS population_native_hawaiian_pacific_islander
+        ,SUM(population_other) AS population_other
+        ,SUM(population_two_or_more_races) AS population_two_or_more_races
+FROM
+    (SELECT DISTINCT A."ZIPCODE"
+                    ,A."STATE"
+                    ,B.hsanum
+                    ,B.hsacity
+                    ,B.hsastate
+                    ,B.hrrnum
+                    ,B.hrrcity
+                    ,B.hrrstate
+                    ,C.population
+                    ,C.housing_units
+                    ,C.population_male
+                    ,C.population_female
+                    ,C.education_less_than_high_school
+                    ,C.education_high_school_graduate
+                    ,C.education_associate_degree
+                    ,C.education_bachelors_or_higher
+                    ,C.education_professional_school
+                    ,C.household_income_below_25k
+                    ,C.household_income_25k_to_45k
+                    ,C.household_income_45k_to_60k
+                    ,C.household_income_60k_to_100k
+                    ,C.household_income_100k_to_150k
+                    ,C.household_income_150k_to_200k
+                    ,C.household_income_above_200k
+                    ,C.population_white
+                    ,C.population_black_african_american
+                    ,C.population_american_indian_alaska_native
+                    ,C.population_asian
+                    ,C.population_native_hawaiian_pacific_islander
+                    ,C.population_other
+                    ,C.population_two_or_more_races
+                    ,D.orthopaedic_surgeon
+                    ,D.orthopaedic_surgery
+    FROM zipcodes A
+    LEFT JOIN zip_crosswalks_ziphsahrr19 B
+        ON A."ZIPCODE"=B.zipcode19
+    LEFT JOIN zip_to_census C
+        ON A."ZIPCODE"=C.zip_code
+    LEFT JOIN
+            (SELECT substr("Provider Business Practice Location Address Postal Code",1,5) AS pvd_zip
+                    ,SUM(CASE WHEN "Entity Type Code"=1 THEN 1 ELSE 0 END) AS orthopaedic_surgeon
+                    ,SUM(CASE WHEN "Entity Type Code"=2 THEN 1 ELSE 0 END) AS orthopaedic_surgery
+            FROM nppes_npidata_pfile_2005052320240707
+            WHERE
+                ("Healthcare Provider Primary Taxonomy Switch_1" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_1" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_2" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_2" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_3" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_3" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_4" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_4" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_5" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_5" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_6" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_6" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_7" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_7" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_8" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_8" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_9" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_9" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_10" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_10" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_11" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_11" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_12" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_12" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_13" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_13" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_14" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_14" IN ('207X00000X','207XS0114X'))
+                OR ("Healthcare Provider Primary Taxonomy Switch_15" = 'Y'
+                    AND "Healthcare Provider Taxonomy Code_15" IN ('207X00000X','207XS0114X'))
+            GROUP BY 1) AS D
+        ON A."ZIPCODE"=D.pvd_zip
+    WHERE A."STATE" IN ('AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL',
+                        'GA','HI','ID','IL','IN','IA','KS','KY','LA','ME',
+                        'MD','MA','MI','MN','MS','MO','MT','NE','NV','NH',
+                        'NJ','NM','NY','NC','ND','OH','OK','OR','PA','PR',
+                        'RI','SC','SD','TN','TX','UT','VT','VA','WA','WV',
+                        'WI','WY')) E
+GROUP BY 1
+ORDER BY 1;
+`
+
+const COLORECTAL_QUERY = `
+SELECT
+        "STATE_" AS state
+        ,SUM(colorectal_surgeon_or_gastroenterologist) AS colorectal_surgeon_or_gastroenterologist
+        ,SUM(colorectal_or_gastroenterology_organization) AS colorectal_or_gastroenterology_organization
+        ,SUM(population) AS population
+        ,SUM(housing_units) AS housing_units
+        ,SUM(population_male) AS population_male
+        ,SUM(population_female) AS population_female
+        ,SUM(education_less_than_high_school) AS education_less_than_high_school
+        ,SUM(education_high_school_graduate) AS education_high_school_graduate
+        ,SUM(education_associate_degree) AS education_associate_degree
+        ,SUM(education_bachelors_or_higher) AS education_bachelors_or_higher
+        ,SUM(education_professional_school) AS education_professional_school
+        ,SUM(household_income_below_25k) AS household_income_below_25k
+        ,SUM(household_income_25k_to_45k) + SUM(household_income_45k_to_60k) AS household_income_25k_to_60k
+        ,SUM(household_income_60k_to_100k) AS household_income_60k_to_100k
+        ,SUM(household_income_100k_to_150k) + SUM(household_income_150k_to_200k) AS household_income_100k_to_200k
+        ,SUM(household_income_above_200k) AS household_income_above_200k
+        ,SUM(population_white) AS population_white
+        ,SUM(population_black_african_american) AS population_black_african_american
+        ,SUM(population_american_indian_alaska_native) AS population_american_indian_alaska_native
+        ,SUM(population_asian) AS population_asian
+        ,SUM(population_native_hawaiian_pacific_islander) AS population_native_hawaiian_pacific_islander
+        ,SUM(population_other) AS population_other
+        ,SUM(population_two_or_more_races) AS population_two_or_more_races
+FROM
+    (SELECT DISTINCT A."ZIP_CODE"
+                    ,A."STATE_"
+                    ,B.HSA
+                    ,B.HSA_CITY
+                    ,B.HSA_STATE
+                    ,B.HRR
+                    ,B.HRR_CITY
+                    ,B.HRR_STATE
+                    ,C.population
+                    ,C.housing_units
+                    ,C.population_male
+                    ,C.population_female
+                    ,C.education_less_than_high_school
+                    ,C.education_high_school_graduate
+                    ,C.education_associate_degree
+                    ,C.education_bachelors_or_higher
+                    ,C.education_professional_school
+                    ,C.household_income_below_25k
+                    ,C.household_income_25k_to_45k
+                    ,C.household_income_45k_to_60k
+                    ,C.household_income_60k_to_100k
+                    ,C.household_income_100k_to_150k
+                    ,C.household_income_150k_to_200k
+                    ,C.household_income_above_200k
+                    ,C.population_white
+                    ,C.population_black_african_american
+                    ,C.population_american_indian_alaska_native
+                    ,C.population_asian
+                    ,C.population_native_hawaiian_pacific_islander
+                    ,C.population_other
+                    ,C.population_two_or_more_races
+                    ,D.colorectal_surgeon_or_gastroenterologist
+                    ,D.colorectal_or_gastroenterology_organization
+    FROM REF_GEOGRAPHY A
+    LEFT JOIN REF_HSA_HRR B
+        ON A."ZIP_CODE"=B.ZIP_CODE
+    LEFT JOIN REF_CENSUS C
+        ON A."ZIP_CODE"=C.zip_code
+    LEFT JOIN
+            (SELECT substr("PROVIDER_BUSINESS_PRACTICE_LOCATION_ADDRESS_POSTAL_CD",1,5) AS pvd_zip
+                    ,SUM(CASE WHEN "ENTITY_TYPE_CD"=1 THEN 1 ELSE 0 END) AS colorectal_surgeon_or_gastroenterologist
+                    ,SUM(CASE WHEN "ENTITY_TYPE_CD"=2 THEN 1 ELSE 0 END) AS colorectal_or_gastroenterology_organization
+            FROM REF_NPPES
+            WHERE
+                ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_1" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_1" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_2" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_2" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_3" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_3" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_4" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_4" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_5" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_5" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_6" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_6" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_7" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_7" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_8" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_8" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_9" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_9" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_10" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_10" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_11" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_11" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_12" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_12" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_13" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_13" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_14" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_14" IN ('208C00000X', '207RG0100X'))
+                OR ("HEALTHCARE_PROVIDER_PRIMARY_TAXONOMY_SWITCH_15" = 'Y'
+                    AND "HEALTHCARE_PROVIDER_TAXONOMY_CD_15" IN ('208C00000X', '207RG0100X'))
+            GROUP BY 1) AS D
+        ON A."ZIP_CODE"=D.pvd_zip
+    WHERE A."STATE_" IN ('AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL',
+                        'GA','HI','ID','IL','IN','IA','KS','KY','LA','ME',
+                        'MD','MA','MI','MN','MS','MO','MT','NE','NV','NH',
+                        'NJ','NM','NY','NC','ND','OH','OK','OR','PA','PR',
+                        'RI','SC','SD','TN','TX','UT','VT','VA','WA','WV',
+                        'WI','WY')) E
+GROUP BY 1
+ORDER BY 1;
+`;
+
+
 const metadata = [
   {
     label: "ZIP CODE",
@@ -419,29 +646,50 @@ export default function Component() {
     </Card>
   );
 
-  const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    //const input = e.currentTarget.elements.namedItem('userInput') as HTMLInputElement
-    console.log("Input element:", sqlQuery); // Debug log
-    if (sqlQuery && sqlQuery.trim()) {
-      const newMessage = { role: "user", content: sqlQuery };
-      setChatMessages([...chatMessages, newMessage]);
-      fetchSQLResults(sqlQuery);
-      setTimeout(() => {
-        setChatMessages((prev) => [
-          ...prev,
-          {
-            role: "system",
-            content:
-              "Based on your question, here's a SQL query that might help:",
-          },
-        ]);
-        //setSqlQuery("SELECT * FROM REF_HSA_HRR limit 10;");
-      }, 1000);
+  const handleSendMessage = (event) => {
+    event.preventDefault();
+    const userInput = event.target.userInput.value;
+
+    const newMessage = { role: 'user', content: userInput };
+    const updatedMessages = [...chatMessages, newMessage];
+    //setChatMessages([...chatMessages, newMessage]);
+
+    if (userInput.includes('colo')) {
+      setSqlQuery(COLORECTAL_QUERY);
+      updatedMessages.push({ role: 'system', content: 'I have processed this question about colorectal patients. Please see the query I generated to the right.' });
+    } else if (userInput.includes('joint')) {
+      setSqlQuery(JOINT_REPLACEMENT_QUERY);
+      updatedMessages.push({ role: 'system', content: 'I have processed this question about joint replacement patients. Please see the query I generated to the right.' });
     } else {
-      console.error("Input element is empty or not found.");
+      setSqlQuery('');
+      setChatMessages([...chatMessages, newMessage, { role: 'system', content: 'Please better specify the question' }]);
     }
+    setChatMessages(updatedMessages);
+    event.target.userInput.value = '';
   };
+
+  // const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   console.log("Input element:", sqlQuery); // Debug log
+  //   if (sqlQuery && sqlQuery.trim()) {
+  //     const newMessage = { role: "user", content: sqlQuery };
+  //     setChatMessages([...chatMessages, newMessage]);
+  //     fetchSQLResults(sqlQuery);
+  //     setTimeout(() => {
+  //       setChatMessages((prev) => [
+  //         ...prev,
+  //         {
+  //           role: "system",
+  //           content:
+  //             "Based on your question, here's a SQL query that might help:",
+  //         },
+  //       ]);
+  //       //setSqlQuery("SELECT * FROM REF_HSA_HRR limit 10;");
+  //     }, 1000);
+  //   } else {
+  //     console.error("Input element is empty or not found.");
+  //   }
+  // };
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -1127,7 +1375,7 @@ export default function Component() {
                     <Textarea
                       value={sqlQuery}
                       onChange={(e) => setSqlQuery(e.target.value)}
-                      placeholder="Your SQL query won't appear here..."
+                      placeholder="Your SQL query will appear here..."
                       className="min-h-[200px] font-mono"
                     />
                     <Button type="submit">Run Query</Button>
