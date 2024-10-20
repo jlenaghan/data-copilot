@@ -1379,7 +1379,7 @@ export default function Component() {
     "condition-hypertension": false,
     "condition-asthma": false,
     "condition-copd": false,
-    "condition-joints": false,
+    "condition-joint replacement": false,
     "condition-colonoscopy": false,
   });
   
@@ -1416,7 +1416,7 @@ export default function Component() {
       setQueryType("colo");
       setSqlQuery(COLORECTAL_QUERY);
       setTableData(coloTableData);
-    } else if (checkboxes["condition-joints"]) {
+    } else if (checkboxes["condition-joint replacement"]) {
       setQueryType("joint");
       setSqlQuery(JOINT_REPLACEMENT_QUERY);
       setTableData(jointTableData);
@@ -1914,7 +1914,7 @@ export default function Component() {
                     <AccordionContent>
                       <div className="space-y-2">
                         <Label>Select Conditions</Label>
-                        {["Diabetes", "Hypertension", "Asthma", "COPD", "Joints", "Colonoscopy"].map(
+                        {["Diabetes", "Hypertension", "Asthma", "COPD", "Joint Replacement", "Colonoscopy"].map(
                           (condition) => (
                             <div
                               key={condition}
