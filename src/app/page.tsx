@@ -320,6 +320,130 @@ ORDER BY 1;
 `;
 
 
+const colo_data = [
+  {
+    "state": "AL",
+    "colorectal_surgeon_or_gastroenterologist": "244",
+    "colorectal_or_gastroenterology_organization": 77,
+    "population": "4,760,671",
+    "housing_units": "2,168,020",
+    "population_male": "2,320,118",
+    "population_female": "2,459,470",
+    "education_less_than_high_school": "539,200",
+    "education_high_school_graduate": "1,694,916",
+    "education_associate_degree": "236,473"
+  },
+  {
+    "state": "AR",
+    "colorectal_surgeon_or_gastroenterologist": "126",
+    "colorectal_or_gastroenterology_organization": 41,
+    "population": "2,908,840",
+    "housing_units": "1,314,697",
+    "population_male": "1,431,688",
+    "population_female": "1,484,354",
+    "education_less_than_high_school": "315,076",
+    "education_high_school_graduate": "1,113,059",
+    "education_associate_degree": "119,051"
+  },
+  {
+    "state": "AZ",
+    "colorectal_surgeon_or_gastroenterologist": "394",
+    "colorectal_or_gastroenterology_organization": 138,
+    "population": "6,202,968",
+    "housing_units": "2,774,353",
+    "population_male": "3,096,290",
+    "population_female": "3,130,466",
+    "education_less_than_high_school": "596,062",
+    "education_high_school_graduate": "2,080,305",
+    "education_associate_degree": "340,045"
+  },
+  {
+    "state": "CA",
+    "colorectal_surgeon_or_gastroenterologist": "1,818",
+    "colorectal_or_gastroenterology_organization": 639,
+    "population": "30,467,033",
+    "housing_units": "11,035,668",
+    "population_male": "15,171,576",
+    "population_female": "15,365,255",
+    "education_less_than_high_school": "3,880,643",
+    "education_high_school_graduate": "8,349,974",
+    "education_associate_degree": "1,503,582"
+  },
+  {
+    "state": "CO",
+    "colorectal_surgeon_or_gastroenterologist": "334",
+    "colorectal_or_gastroenterology_organization": 95,
+    "population": "4,942,184",
+    "housing_units": "2,186,452",
+    "population_male": "2,486,221",
+    "population_female": "2,475,618",
+    "education_less_than_high_school": "332,020",
+    "education_high_school_graduate": "1,509,894",
+    "education_associate_degree": "273,646"
+  },
+  {
+    "state": "CT",
+    "colorectal_surgeon_or_gastroenterologist": "410",
+    "colorectal_or_gastroenterology_organization": 153,
+    "population": "3,565,287",
+    "housing_units": "1,490,381",
+    "population_male": "1,724,456",
+    "population_female": "1,840,831",
+    "education_less_than_high_school": "265,163",
+    "education_high_school_graduate": "1,358,122",
+    "education_associate_degree": "205,181"
+  },
+  {
+    "state": "DE",
+    "colorectal_surgeon_or_gastroenterologist": "80",
+    "colorectal_or_gastroenterology_organization": 30,
+    "population": "935,614",
+    "housing_units": "433,762",
+    "population_male": "456,539",
+    "population_female": "479,075",
+    "education_less_than_high_school": "76,839",
+    "education_high_school_graduate": "347,249",
+    "education_associate_degree": "48,017"
+  },
+  {
+    "state": "FL",
+    "colorectal_surgeon_or_gastroenterologist": "1,212",
+    "colorectal_or_gastroenterology_organization": 479,
+    "population": "20,278,447",
+    "housing_units": "9,417,086",
+    "population_male": "9,853,570",
+    "population_female": "10,424,877",
+    "education_less_than_high_school": "2,327,463",
+    "education_high_school_graduate": "7,218,160",
+    "education_associate_degree": "1,095,683"
+  },
+  {
+    "state": "GA",
+    "colorectal_surgeon_or_gastroenterologist": "564",
+    "colorectal_or_gastroenterology_organization": 135,
+    "population": "9,604,190",
+    "housing_units": "4,067,910",
+    "population_male": "4,718,412",
+    "population_female": "4,946,125",
+    "education_less_than_high_school": "961,809",
+    "education_high_school_graduate": "3,143,217",
+    "education_associate_degree": "437,796"
+  },
+  {
+    "state": "IL",
+    "colorectal_surgeon_or_gastroenterologist": "784",
+    "colorectal_or_gastroenterology_organization": 295,
+    "population": "12,812,508",
+    "housing_units": "5,373,690",
+    "population_male": "6,223,105",
+    "population_female": "6,589,403",
+    "education_less_than_high_school": "1,299,672",
+    "education_high_school_graduate": "5,073,514",
+    "education_associate_degree": "764,303"
+  }
+];
+
+
 const metadata = [
   {
     label: "ZIP CODE",
@@ -1920,14 +2044,38 @@ export default function Component() {
                   )}
                   {activeTableView === "records" && (
                     <div>
-                      <p>
-                        This section would display individual records from the
-                        query results.
-                      </p>
-                      <p className="text-muted-foreground">
-                        For privacy reasons, individual patient records are not
-                        shown in this demo.
-                      </p>
+                      <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>State</TableHead>
+                          <TableHead>colorectal_surgeon_or_gastroenterologist</TableHead>
+                          <TableHead>colorectal_or_gastroenterology_organization</TableHead>
+                          <TableHead>population</TableHead>
+                          <TableHead>housing_units</TableHead>
+                          <TableHead>population_male</TableHead>
+                          <TableHead>population_female</TableHead>
+                          <TableHead>education_less_than_high_school</TableHead>
+                          <TableHead>education_high_school_graduate</TableHead>
+                          <TableHead>education_associate_degree</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {colo_data.map((row, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{row.state}</TableCell>
+                            <TableCell>{row.colorectal_surgeon_or_gastroenterologist}</TableCell>
+                            <TableCell>{row.colorectal_or_gastroenterology_organization}</TableCell>
+                            <TableCell>{row.population}</TableCell>
+                            <TableCell>{row.housing_units}</TableCell>
+                            <TableCell>{row.population_male}</TableCell>
+                            <TableCell>{row.population_female}</TableCell>
+                            <TableCell>{row.education_less_than_high_school}</TableCell>
+                            <TableCell>{row.education_high_school_graduate}</TableCell>
+                            <TableCell>{row.education_associate_degree}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
                     </div>
                   )}
                   {activeTableView === "metadata" && (
