@@ -615,7 +615,8 @@ const joint_data = [
     "population_two_or_more_races": "207219"
   }
 ];
-const metadata = [
+
+const dartMetadata = [
   {
     label: "ZIP CODE",
     core: true,
@@ -678,11 +679,242 @@ const metadata = [
   }
 ]
 
-function MetadataVisualization() {
+const nppesMetadata = [
+  {
+    label: "NPI",
+    core: true,
+    foreignKey: true,
+    primaryKey: true,
+    nullable: false,
+    format: "Numeric",
+    description: "UNIQUE PROVODER ID ASSIGNED BY NPPES FOR INDIVIDUALS AND ORGANIZATIONS",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "ENTITY TYPE CODE",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER FIRST LINE BUSINESS PRACTICE LOCATION ADDRESS",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER SECOND LINE BUSINESS PRACTICE LOCATION ADDRESS",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER BUSINESS PRACTICE LOCATION ADDRESS CITY NAME",
+    core: false,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: true,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER BUSINESS PRACTICE LOCATION ADDRESS STATE NAME",
+    core: false,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: true,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER BUSINESS PRACTICE LOCATION ADDRESS POSTAL CODE",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER BUSINESS PRACTICE LOCATION ADDRESS COUNTRY CODE",
+    core: false,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: true,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER BUSINESS PRACTICE LOCATION ADDRESS TELEPHONE NUMBER",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "PROVIDER BUSINESS PRACTICE LOCATION ADDRESS FAX NUMBER",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "",
+    uniqueValues: "--",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  }
+];
+const censusMetadata = [
+  {
+    label: "ZIP CODE",
+    core: true,
+    foreignKey: true,
+    primaryKey: true,
+    nullable: true,
+    format: "Numeric",
+    description: "USPS ASSIGNED ZIP CODE",
+    uniqueValues: "40,000",
+    commonValues: "--",
+    nullPercentage: "0.000%",
+    min: "00501",
+    max: "96,754",
+    average: "--"
+  },
+  {
+    label: "POPULATION",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: true,
+    format: "Numeric",
+    description: "All people, male and female, child and adult, living in a given geographic area",
+    uniqueValues: "14,859",
+    commonValues: "--",
+    nullPercentage: "24.580%",
+    min: "9",
+    max: "113,916",
+    average: "16,903.30"
+  },
+  {
+    label: "HOUSING UNITS",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "A house, an apartment, a mobile home or trailer...",
+    uniqueValues: "10,733",
+    commonValues: "--",
+    nullPercentage: "24.580%",
+    min: "6",
+    max: "47,617",
+    average: "8,356.21"
+  },
+  {
+    label: "MEDIAN HOME VALUE",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "Value is the respondent's estimate of how much...",
+    uniqueValues: "4,904",
+    commonValues: "--",
+    nullPercentage: "24.580%",
+    min: "9,999",
+    max: "1,000,001",
+    average: "306,657.46"
+  },
+  {
+    label: "MEDIAN HOUSEHOLD INCOME",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "The sum of the income of all people 15 years and older...",
+    uniqueValues: "19,075",
+    commonValues: "--",
+    nullPercentage: "24.580%",
+    min: "2,499",
+    max: "250,001",
+    average: "55,028.25"
+  }
+  // Additional rows follow the same pattern...
+];
+
+function MetadataVisualization({ data }) {
   return (
     <ScrollArea className="h-[600px] pr-4">
       <Accordion type="single" collapsible className="w-full">
-        {metadata.map((field, index) => (
+        {data.map((field, index) => (
           <AccordionItem value={`item-${index}`} key={index}>
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center space-x-2">
@@ -713,7 +945,7 @@ function MetadataVisualization() {
   )
 }
 
-function MetadataTable() {
+function MetadataTable({ data }) {
   return (
     <ScrollArea className="h-[600px]">
       <Table>
@@ -735,7 +967,7 @@ function MetadataTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {metadata.map((field, index) => (
+          {data.map((field, index) => (
             <TableRow key={index}>
               <TableCell>{field.label}</TableCell>
               <TableCell>{field.core ? 'Yes' : 'No'}</TableCell>
@@ -2252,7 +2484,7 @@ export default function Component() {
                       <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>state</TableHead>
+                        <TableHead>state</TableHead>
                           <TableHead>orthopaedic_surgeons</TableHead>
                           <TableHead>orthopaedic_surgeries</TableHead>
                           <TableHead>population</TableHead>
@@ -2286,8 +2518,7 @@ export default function Component() {
                             <TableCell>{row.population_asian}</TableCell>
                             <TableCell>{row.population_native_hawaiian_pacific_islander}</TableCell>
                             <TableCell>{row.population_other}</TableCell>
-                            <TableCell>{row.population_two_or_more_races}</TableCell>                          
-                          </TableRow>
+                            <TableCell>{row.population_two_or_more_races}</TableCell>                          </TableRow>
                         ))}
                       </TableBody>
                     </Table>
@@ -2299,36 +2530,49 @@ export default function Component() {
                   )}
                   {activeTableView === "metadata" && (
                     // build chat metadata
-
                     <>
-                      <Card>
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-between">
-                            Dartmouth HSA HRR
-                            <Select value={metadataView} onValueChange={(value: 'table' | 'visualization') => setMetadataView(value)}>
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select view" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="table">Table View</SelectItem>
-                                <SelectItem value="visualization">Visualization</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          {metadataView === 'table' ? <MetadataTable /> : <MetadataVisualization />}
-                        </CardContent>
-                      </Card>
-                      {/* <ul className="list-disc pl-5">
-                        <li>Table: colorectal_screenings</li>
-                        <li>
-                          Columns: screening_method, screening_date, patient_age
-                        </li>
-                        <li>Date Range: 2023-01-01 to 2023-12-31</li>
-                        <li>Aggregations: COUNT(*), AVG(patient_age)</li>
-                      </ul> */}
-                      </>
+                      <div className="overflow-y-scroll h-[500px]">
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                              NPPES
+                              <Select value={metadataView} onValueChange={(value: 'table' | 'visualization') => setMetadataView(value)}>
+                                <SelectTrigger className="w-[180px]">
+                                  <SelectValue placeholder="Select view" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="table">Table View</SelectItem>
+                                  <SelectItem value="visualization">Visualization</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {metadataView === 'table' ? <MetadataTable data={nppesMetadata}/> : <MetadataVisualization data={nppesMetadata}/>}
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                              Dartmouth HSA HRR
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {metadataView === 'table' ? <MetadataTable data={dartMetadata}/> : <MetadataVisualization data={dartMetadata}/>}
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                              Census
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {metadataView === 'table' ? <MetadataTable data={censusMetadata}/> : <MetadataVisualization data={censusMetadata}/>}
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </>
                   )}
                   {activeTableView === "lineage" && (
                     <div className="flex flex-col items-center space-y-4 p-4">
@@ -2651,7 +2895,7 @@ export default function Component() {
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          {metadataView === 'table' ? <MetadataTable /> : <MetadataVisualization />}
+                          {metadataView === 'table' ? <MetadataTable data={dartMetadata}/> : <MetadataVisualization data={dartMetadata}/>}
                         </CardContent>
                       </Card>
                     )}
