@@ -662,81 +662,81 @@ const zipcodeMetadata = [
     "max": "--",
     "average": "--"
   },
-  {
-    "label": "COUNTY",
-    "core": true,
-    "foreignKey": true,
-    "primaryKey": false,
-    "nullable": false,
-    "format": "Text length 21",
-    "description": "USPS ASSIGNED COUNTY NAME FOR A SPECIFIC ZIP CODE",
-    "uniqueValues": "1,756",
-    "commonValues": "LOS ANGELES, JEFFERSON, WASHINGTON",
-    "nullPercentage": "0.000%",
-    "min": "--",
-    "max": "--",
-    "average": "--"
-  },
-  {
-    "label": "AREA_CODE",
-    "core": true,
-    "foreignKey": false,
-    "primaryKey": false,
-    "nullable": true,
-    "format": "--",
-    "description": "PRIMARY NORTH AMERICAN NUMBERING PLAN ADMINISTRATOR (NANPA) AREA CODE ASSIGNED FOR A SPECIFIC ZIP CODE",
-    "uniqueValues": "1",
-    "commonValues": NaN,
-    "nullPercentage": "100.00%",
-    "min": "--",
-    "max": "--",
-    "average": "--"
-  },
-  {
-    "label": "LATITUDE",
-    "core": true,
-    "foreignKey": false,
-    "primaryKey": false,
-    "nullable": true,
-    "format": "Decimal XX.XXXXX",
-    "description": "PRIMARY LATITUDE FOR A SPECIFIC ZIP CODE",
-    "uniqueValues": "31,821",
-    "commonValues": "33.786594, 29.83399, 38.893311",
-    "nullPercentage": "0.030%",
-    "min": "24.90169",
-    "max": "59.58000",
-    "average": "--"
-  },
-  {
-    "label": "LONGITUDE",
-    "core": true,
-    "foreignKey": false,
-    "primaryKey": false,
-    "nullable": true,
-    "format": "Decimal XX.XXXXX",
-    "description": "PRIMARY LONGITUDE FOR A SPECIFIC ZIP CODE",
-    "uniqueValues": "31,849",
-    "commonValues": "-72.637078, -71.459405, -73.977182",
-    "nullPercentage": "0.030%",
-    "min": "-123.048629",
-    "max": "111.96000",
-    "average": "--"
-  },
-  {
-    "label": "PASS INITIAL CLEANSE",
-    "core": false,
-    "foreignKey": false,
-    "primaryKey": false,
-    "nullable": false,
-    "format": "Length 1 all numeric",
-    "description": "FLAG THAT ENABLES USER TO FILTER OUT RECORDS THAT DO NOT PASS LIGHT CLEANSING",
-    "uniqueValues": "2",
-    "commonValues": "will calculate after create",
-    "nullPercentage": "0.000%",
-    "min": "0",
-    "max": "1",
-    "average": "--"
-  }
+  // {
+  //   "label": "COUNTY",
+  //   "core": true,
+  //   "foreignKey": true,
+  //   "primaryKey": false,
+  //   "nullable": false,
+  //   "format": "Text length 21",
+  //   "description": "USPS ASSIGNED COUNTY NAME FOR A SPECIFIC ZIP CODE",
+  //   "uniqueValues": "1,756",
+  //   "commonValues": "LOS ANGELES, JEFFERSON, WASHINGTON",
+  //   "nullPercentage": "0.000%",
+  //   "min": "--",
+  //   "max": "--",
+  //   "average": "--"
+  // },
+  // {
+  //   "label": "AREA_CODE",
+  //   "core": true,
+  //   "foreignKey": false,
+  //   "primaryKey": false,
+  //   "nullable": true,
+  //   "format": "--",
+  //   "description": "PRIMARY NORTH AMERICAN NUMBERING PLAN ADMINISTRATOR (NANPA) AREA CODE ASSIGNED FOR A SPECIFIC ZIP CODE",
+  //   "uniqueValues": "1",
+  //   "commonValues": NaN,
+  //   "nullPercentage": "100.00%",
+  //   "min": "--",
+  //   "max": "--",
+  //   "average": "--"
+  // },
+  // {
+  //   "label": "LATITUDE",
+  //   "core": true,
+  //   "foreignKey": false,
+  //   "primaryKey": false,
+  //   "nullable": true,
+  //   "format": "Decimal XX.XXXXX",
+  //   "description": "PRIMARY LATITUDE FOR A SPECIFIC ZIP CODE",
+  //   "uniqueValues": "31,821",
+  //   "commonValues": "33.786594, 29.83399, 38.893311",
+  //   "nullPercentage": "0.030%",
+  //   "min": "24.90169",
+  //   "max": "59.58000",
+  //   "average": "--"
+  // },
+  // {
+  //   "label": "LONGITUDE",
+  //   "core": true,
+  //   "foreignKey": false,
+  //   "primaryKey": false,
+  //   "nullable": true,
+  //   "format": "Decimal XX.XXXXX",
+  //   "description": "PRIMARY LONGITUDE FOR A SPECIFIC ZIP CODE",
+  //   "uniqueValues": "31,849",
+  //   "commonValues": "-72.637078, -71.459405, -73.977182",
+  //   "nullPercentage": "0.030%",
+  //   "min": "-123.048629",
+  //   "max": "111.96000",
+  //   "average": "--"
+  // },
+  // {
+  //   "label": "PASS INITIAL CLEANSE",
+  //   "core": false,
+  //   "foreignKey": false,
+  //   "primaryKey": false,
+  //   "nullable": false,
+  //   "format": "Length 1 all numeric",
+  //   "description": "FLAG THAT ENABLES USER TO FILTER OUT RECORDS THAT DO NOT PASS LIGHT CLEANSING",
+  //   "uniqueValues": "2",
+  //   "commonValues": "will calculate after create",
+  //   "nullPercentage": "0.000%",
+  //   "min": "0",
+  //   "max": "1",
+  //   "average": "--"
+  // }
 ]
 
 const dartMetadata = [
@@ -756,21 +756,6 @@ const dartMetadata = [
     average: "--"
   },
   {
-    label: "HSA",
-    core: true,
-    foreignKey: false,
-    primaryKey: false,
-    nullable: false,
-    format: "Length 5 all numeric",
-    description: "HSAS ARE THE LOCAL HEALTH CARE MARKET FOR INPATIENT CARE",
-    uniqueValues: "3,436",
-    commonValues: "5089, 25038, 52090",
-    nullPercentage: "0.000%",
-    min: "1001",
-    max: "53026",
-    average: "--"
-  },
-  {
     label: "HSA CITY",
     core: true,
     foreignKey: false,
@@ -786,6 +771,21 @@ const dartMetadata = [
     average: "--"
   },
   {
+    label: "HRR CITY",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Text length 24",
+    description: "HRR CITY NAME LABEL",
+    uniquevalues: "294",
+    commonValues: "SPRINGFIELD, PITTSBURGH, PORTLAND",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
     label: "HSA STATE",
     core: true,
     foreignKey: false,
@@ -793,6 +793,21 @@ const dartMetadata = [
     nullable: false,
     format: "Text length 2",
     description: "HSA STATE NAME LABEL",
+    uniqueValues: "51",
+    commonValues: "TX, CA, PA",
+    nullPercentage: "0.000%",
+    min: "--",
+    max: "--",
+    average: "--"
+  },
+  {
+    label: "HRR STATE",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Text length 2",
+    description: "HRR STATE NAME LABEL",
     uniqueValues: "51",
     commonValues: "TX, CA, PA",
     nullPercentage: "0.000%",
@@ -1001,21 +1016,6 @@ const censusMetadata = [
     average: "8,356.21"
   },
   {
-    label: "MEDIAN HOME VALUE",
-    core: true,
-    foreignKey: false,
-    primaryKey: false,
-    nullable: false,
-    format: "Numeric",
-    description: "Value is the respondent's estimate of how much...",
-    uniqueValues: "4,904",
-    commonValues: "--",
-    nullPercentage: "24.580%",
-    min: "9,999",
-    max: "1,000,001",
-    average: "306,657.46"
-  },
-  {
     label: "MEDIAN HOUSEHOLD INCOME",
     core: true,
     foreignKey: false,
@@ -1029,6 +1029,21 @@ const censusMetadata = [
     min: "2,499",
     max: "250,001",
     average: "55,028.25"
+  },
+  {
+    label: "POPULATION DENSITY",
+    core: true,
+    foreignKey: false,
+    primaryKey: false,
+    nullable: false,
+    format: "Numeric",
+    description: "Total population within a geographic entity divided by the land area of that entity measured in square kilometers or square miles...",
+    uniqueValues: "5,090",
+    commonValues: "--",
+    nullPercentage: "24.580%",
+    min: "0",
+    max: "143,683",
+    average: "5,552.04"
   }
   // Additional rows follow the same pattern...
 ];
@@ -1344,35 +1359,69 @@ export default function Component() {
     { method: 'Knees', total: 800, averageAge: 58.1 },
   ];
 
+  const [checkboxes, setCheckboxes] = React.useState({
+    "condition-diabetes": false,
+    "condition-hypertension": false,
+    "condition-asthma": false,
+    "condition-copd": false,
+    "condition-joints": false,
+    "condition-colonoscopy": false,
+  });
+  
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
     console.log(`Checkbox ${id} is now ${checked ? 'checked' : 'unchecked'}`);
-    if (checked) {
-      if (id === "condition-colonoscopy") {
-        setQueryType("colo");
-      } else if (id === "condition-joint replacement") {
-        setQueryType("joint");
-      }
-    } else {
-      setQueryType("");
-    }
-    console.log(`query type is now ${queryType}`);
+    setCheckboxes((prevCheckboxes) => ({
+      ...prevCheckboxes,
+      [id]: checked,
+    }));
   };
+  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { id, checked } = event.target;
+  //   console.log(`Checkbox ${id} is now ${checked ? 'checked' : 'unchecked'}`);
+  //   if (checked) {
+  //     if (id === "condition-colonoscopy") {
+  //       setQueryType("colo");
+  //     } else if (id === "condition-joint replacement") {
+  //       setQueryType("joint");
+  //     }
+  //   } else {
+  //     setQueryType("");
+  //   }
+  //   console.log(`query type is now ${queryType}`);
+  // };
 
   const handleApplyBuildFilters = () => {
     setShowTableView(true);
-    setQueryType('colo')
-    if (queryType === "colo") {
-      setSqlQuery(COLORECTAL_QUERY)
+    if (checkboxes.colonoscopy) {
+      setQueryType("colo");
+      setSqlQuery(COLORECTAL_QUERY);
       setTableData(coloTableData);
-    } else if (queryType === "joint") {
-      setSqlQuery(JOINT_REPLACEMENT_QUERY)
+    } else if (checkboxes.jointReplacement) {
+      setQueryType("joint");
+      setSqlQuery(JOINT_REPLACEMENT_QUERY);
       setTableData(jointTableData);
     } else {
+      setQueryType("");
       setTableData([]);
     }
+  };
+  
 
-  }
+  // const handleApplyBuildFilters = () => {
+  //   setShowTableView(true);
+  //   // setQueryType('colo')
+  //   if (queryType === "colo") {
+  //     setSqlQuery(COLORECTAL_QUERY)
+  //     setTableData(coloTableData);
+  //   } else if (queryType === "joint") {
+  //     setSqlQuery(JOINT_REPLACEMENT_QUERY)
+  //     setTableData(jointTableData);
+  //   } else {
+  //     setTableData([]);
+  //   }
+
+  // }
 
   const handleSendMessage = (event) => {
     event.preventDefault();
@@ -1846,7 +1895,7 @@ export default function Component() {
                     <AccordionContent>
                       <div className="space-y-2">
                         <Label>Select Conditions</Label>
-                        {["Diabetes", "Hypertension", "Asthma", "COPD", "Joint Replacement", "Colonoscopy"].map(
+                        {["Diabetes", "Hypertension", "Asthma", "COPD", "Joints", "Colonoscopy"].map(
                           (condition) => (
                             <div
                               key={condition}
@@ -1946,13 +1995,12 @@ export default function Component() {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="all">All Providers</SelectItem>
-                            <SelectItem value="hospital-a">
-                              Hospital A
-                            </SelectItem>
-                            <SelectItem value="clinic-b">Clinic B</SelectItem>
-                            <SelectItem value="practice-c">
-                              Practice C
-                            </SelectItem>
+                            <SelectItem value="provider-1">1871585885</SelectItem>
+                            <SelectItem value="provider-2">1821080896</SelectItem>
+                            <SelectItem value="provider-3">1528050721</SelectItem>
+                            <SelectItem value="provider-4">1609868801</SelectItem>
+                            <SelectItem value="provider-5">1821080946</SelectItem>
+                            <SelectItem value="provider-6">1639161755</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -2540,7 +2588,7 @@ export default function Component() {
 
                         <Card>
                           <CardHeader>
-                            <CardTitle>Dartmouth DINER HSA HRR</CardTitle>
+                            <CardTitle>Dartmouth HSA HRR</CardTitle>
                           </CardHeader>
                           <CardContent>
                             <div className="grid grid-cols-2 gap-4">
