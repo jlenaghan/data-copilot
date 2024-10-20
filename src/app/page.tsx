@@ -1572,24 +1572,6 @@ export default function Component() {
                     ) : (
                       <p className="text-sm text-muted-foreground">No query explanation available.</p>
                     )}
-
-
-                    {/* <p className="text-sm text-muted-foreground">
-                      This query does the following:
-                    </p>
-                    <ol className="list-decimal pl-5 space-y-2 text-sm text-muted-foreground">
-                      <li>
-                        Selects the screening method, counts the total
-                        screenings, and calculates the average patient age for
-                        each method.
-                      </li>
-                      <li>Filters the data for the year 2023.</li>
-                      <li>Groups the results by screening method.</li>
-                      <li>
-                        Orders the results by the total number of screenings in
-                        descending order.
-                      </li>
-                    </ol> */}
                   </div>
                 </CardContent>
               </Card>
@@ -1598,37 +1580,80 @@ export default function Component() {
                   <CardHeader>
                     <CardTitle>Related Studies</CardTitle>
                   </CardHeader>
+                  {queryType === 'colo' ? (
                   <CardContent>
-                    <h3 className="text-lg font-semibold mb-2">
-                      Colorectal Screening Study
-                    </h3>
                     <p className="mb-4">
-                      A recent study by Johns Hopkins and Mayo Clinic found that
-                      regular colorectal screenings can reduce the risk of
-                      colorectal cancer by up to 60%.
                       <a
-                        href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/colon-cancer/colorectal-cancer-screening"
+                        href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2815644"
                         className="text-blue-500 hover:underline ml-2"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Read more
+                        JAMA: Effectiveness of Colonoscopy Screening vs Sigmoidoscopy Screening in Colorectal Cancer
                       </a>
                     </p>
-                    <h3 className="text-lg font-semibold mb-2">
-                      AI-Generated Summary of Related Studies
-                    </h3>
-                    <p>
-                      Based on the current filters applied, AI analysis of
-                      recent studies suggests: - Colonoscopy remains the gold
-                      standard for colorectal cancer screening - FIT tests show
-                      promise as a less invasive initial screening method -
-                      Regular screening starting at age 45 is now recommended
-                      for average-risk individuals - Patients with a family
-                      history of colorectal cancer may benefit from earlier and
-                      more frequent screenings
+                    <ul style={{ paddingLeft: '20px' }}>
+                     <li/>This comparative effectiveness simulation study of 358204 adults showed a statistically significant 7 percentage point reduction in colorectal cancer incidence and mortality at 15-year follow-up of colonoscopy screening, which proportionally amounted to 30% benefit compared with sigmoidoscopy screening.
+                    </ul>
+                    <br />
+                    <p className="mb-4">
+                      <a
+                        href="https://www.nejm.org/doi/full/10.1056/NEJMoa2208375#:~:text=In%20a%20pooled%20analysis%20of,who%20had%20not%20been%20invited.&text=Colonoscopy%20is%20considered%20to%20be,examine%20the%20entire%20large%20bowel.&text=Thus%2C%20sigmoidoscopy%20has%20largely%20been,be%20performed%20every%2010%20years.&text=In%20contrast%2C%20colonoscopy%20has%20not,of%20this%20test%20is%20lacking.&text=A%20balance%20among%20benefits%2C%20harms,related%20death%20at%2010%20years"
+                        className="text-blue-500 hover:underline ml-2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Effect of Colonoscopy Screening on Risks of Colorectal Cancer and Related Death
+                        </a>
                     </p>
+                    <ul style={{ paddingLeft: '20px' }}>
+                      <li><strong>Study Design:</strong> A randomized controlled trial involving individuals aged 55 to 64, comparing those who underwent colonoscopy screening with a control group.</li>
+                      <li><strong>Colorectal Cancer Incidence:</strong> The study found a significant reduction in colorectal cancer incidence among participants who received screening compared to the control group.</li>
+                      <li><strong>Mortality Rates:</strong> There was a notable decrease in colorectal cancer-related deaths in the screening group, indicating that colonoscopy effectively reduces both cancer risk and mortality.</li>
+                      <li><strong>Long-term Effects:</strong> The benefits of screening persisted over a substantial follow-up period, underscoring the importance of regular colonoscopy screening in this age group.</li>
+                      <li><strong>Safety and Adherence:</strong> The procedure was generally safe, with low rates of complications, and adherence to screening recommendations was emphasized as critical for maximizing benefits.</li>
+</ul>
+
+
+
                   </CardContent>
+                  ) :  queryType === 'joint' ? ( 
+                    <CardContent>
+                    <p className="mb-4">
+                    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4551172/#:~:text=Prevalence%20increased%20with%20age%2C%20and,the%20U.S.%20population%20in%202010" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline ml-2">
+                        <h2>NIH: Prevalence of Total Hip and Knee Replacement in the United States</h2>
+                      </a>
+                      </p>
+                      <ul style={{ paddingLeft: '20px' }}>
+                        <li>The prevalence of total hip and total knee replacement in the total U.S. population was <strong>0.83%</strong> and <strong>1.52%</strong>, respectively.</li>
+                        <li>Prevalence was higher among women than among men and increased with age.</li>
+                        <li>These estimates corresponded to <strong>2.5 million individuals</strong> (1.4 million women and 1.1 million men) with total hip replacement and <strong>4.7 million individuals</strong> (3.0 million women and 1.7 million men) with total knee replacement.</li>
+                        <li>Secular trends indicated a substantial rise in prevalence over time and a shift to younger ages.</li>
+                      </ul>
+                    <br />
+                    <p className="mb-4">
+                      <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)32531-5/fulltext" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline ml-2">
+                        <h2>Lancet: How long does a knee replacement last?</h2>
+                      </a>
+                      </p>
+                      <ul style={{ paddingLeft: '20px' }}>
+                      <li>The aim of knee replacement surgery is the long-term relief of pain and restoration of function.</li>
+                      <li>Unfortunately, knee replacements fail for a variety of reasons, including loosening, infection, persistent pain, and instability, and might require revision within the lifetime of the recipient.</li>
+                      <li>Our pooled registry data, which we believe to be more accurate than the case series data, shows that approximately <strong>82%</strong> of TKRs last 25 years and <strong>70%</strong> of UKRs last 25 years.</li>
+                    </ul>
+                  </CardContent>
+                  ) : (
+                    <CardContent>
+                      <h3 className="text-lg font-semibold mb-2">
+                        No Related Studies Found
+                      </h3>
+                      <p>
+                        There are no related studies available based on the
+                        current query and filters applied.
+                      </p>
+                    </CardContent>
+                  )}
+                
                 </Card>
               )}
             </TabsContent>
