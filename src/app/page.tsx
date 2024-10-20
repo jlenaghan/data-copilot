@@ -93,6 +93,21 @@ import {
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+interface CustomCheckboxProps {
+  id: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ id, onChange }) => {
+  return (
+    <input
+      type="checkbox"
+      id={id}
+      onChange={onChange}
+    />
+  );
+};
+
 const JOINT_REPLACEMENT_QUERY = `
 SELECT
         "STATE" AS state
@@ -1369,6 +1384,7 @@ export default function Component() {
   });
   
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('checkbox change triggered');
     const { id, checked } = event.target;
     console.log(`Checkbox ${id} is now ${checked ? 'checked' : 'unchecked'}`);
     setCheckboxes((prevCheckboxes) => ({
@@ -1376,7 +1392,7 @@ export default function Component() {
       [id]: checked,
     }));
   };
-  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   const { id, checked } = event.target;
   //   console.log(`Checkbox ${id} is now ${checked ? 'checked' : 'unchecked'}`);
   //   if (checked) {
@@ -1392,12 +1408,15 @@ export default function Component() {
   // };
 
   const handleApplyBuildFilters = () => {
-    setShowTableView(true);
-    if (checkboxes.colonoscopy) {
+    console.log("Apply Filters clicked");
+    console.log("Checkbox states:", checkboxes);
+  
+    // Example logic to update queryType based on checkboxes
+    if (checkboxes["condition-colonoscopy"]) {
       setQueryType("colo");
       setSqlQuery(COLORECTAL_QUERY);
       setTableData(coloTableData);
-    } else if (checkboxes.jointReplacement) {
+    } else if (checkboxes["condition-joints"]) {
       setQueryType("joint");
       setSqlQuery(JOINT_REPLACEMENT_QUERY);
       setTableData(jointTableData);
@@ -1405,9 +1424,9 @@ export default function Component() {
       setQueryType("");
       setTableData([]);
     }
-  };
-  
 
+    setShowTableView(true);
+  }
   // const handleApplyBuildFilters = () => {
   //   setShowTableView(true);
   //   // setQueryType('colo')
@@ -1901,7 +1920,7 @@ export default function Component() {
                               key={condition}
                               className="flex items-center space-x-2"
                             >
-                              <Checkbox
+                              <CustomCheckbox
                                 id={`condition-${condition.toLowerCase()}`}
                                 onChange={handleCheckboxChange}
                               />
