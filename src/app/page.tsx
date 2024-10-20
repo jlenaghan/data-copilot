@@ -1965,73 +1965,71 @@ export default function Component() {
                   )}
                   {activeTableView === "lineage" && (
                     <div className="flex flex-col items-center space-y-4 p-4">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-4xl">
                         <DataSource
-                          title="zipcodes_2024Q3"
-                          source="United States Postal Service"
-                          date="20240930 date of record"
+                          title="npidata_pfile_20050523-20240908"
+                          source="Centers for Medicare & Medicaid Services (CMS)"
+                          date="2024-09-24 date of record"
                         />
                         <DataSource
                           title="ziphsahrr19"
-                          source="Dartmouth Atlas"
-                          date="20190901 date of record"
+                          source="Dartmouth Atlas Project"
+                          date="2019-09-01 date of record"
                         />
                         <DataSource
-                          title="ziptocensus2020"
-                          source="Dartmouth Atlas"
-                          date="20190901 date of record"
+                          title="census_to_zip_2020"
+                          source="United States Census Bureau"
+                          date="2019-08-30 date of record"
+                        />
+                        <DataSource
+                          title="geography_2024Q3"
+                          source="United States Postal Service"
+                          date="2019-09-30 date of record"
                         />
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-4xl">
+                        <ArrowDown className="mx-auto text-primary" size={24} />
                         <ArrowDown className="mx-auto text-primary" size={24} />
                         <ArrowDown className="mx-auto text-primary" size={24} />
                         <ArrowDown className="mx-auto text-primary" size={24} />
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-4xl">
                         <ProcessedData
-                          title="Geography"
+                          title="NPPES"
                           description="SemantIQ data model and cleanselite"
-                          date="20241005 date of creation"
+                          date="2024-09-14 date of creation"
                         />
                         <ProcessedData
-                          title="Dartmouth Atlas"
+                          title="DARTMOUTH HSA HRR"
                           description="SemantIQ data model and cleanselite"
-                          date="20241003 date of creation"
+                          date="2024-09-14 date of creation"
                         />
                         <ProcessedData
-                          title="Census 2020"
+                          title="CENSUS"
                           description="SemantIQ data model and cleanselite"
-                          date="20241006 date of creation"
+                          date="2024-09-14 date of creation"
+                        />
+                        <ProcessedData
+                          title="GEOGRAPHY"
+                          description="SemantIQ data model and cleanselite"
+                          date="2024-10-01 date of creation"
                         />
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-4xl">
+                        <ArrowDown className="mx-auto text-primary" size={24} />
                         <ArrowDown className="mx-auto text-primary" size={24} />
                         <ArrowDown className="mx-auto text-primary" size={24} />
                         <ArrowDown className="mx-auto text-primary" size={24} />
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
-                        <Card className="w-full max-w-[300px] bg-secondary">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-lg">
-                              Geography Extract
-                            </CardTitle>
-                          </CardHeader>
-                        </Card>
-                        <Card className="w-full max-w-[300px] bg-secondary">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-lg">
-                              HSA HRR Extract
-                            </CardTitle>
-                          </CardHeader>
-                        </Card>
-                        <Card className="w-full max-w-[300px] bg-secondary">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-lg">
-                              Census Extract
-                            </CardTitle>
-                          </CardHeader>
-                        </Card>
-                      </div>
+                      <div className="flex justify-center w-full max-w-4xl">
+                      <Card className="w-full max-w-[900px] bg-secondary">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-lg text-center">
+                            Analytics File
+                          </CardTitle>
+                        </CardHeader>
+                      </Card>
+                    </div>
                     </div>
                   )}
                 </CardContent>
