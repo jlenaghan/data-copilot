@@ -443,7 +443,178 @@ const colo_data = [
   }
 ];
 
-
+const joint_data = [
+  {
+    "state": "AL",
+    "orthopaedic_surgeons": "337",
+    "orthopaedic_surgeries": "195",
+    "population": "4760671",
+    "housing_units": "2168020",
+    "population_male": "2320118",
+    "population_female": "2459470",
+    "education_less_than_high_school": "539200",
+    "education_high_school_graduate": "1694916",
+    "education_associate_degree": "28214",
+    "population_american_indian_alaska_native": "28214",
+    "population_asian": "53595",
+    "population_native_hawaiian_pacific_islander": "3056",
+    "population_other": "96910",
+    "population_two_or_more_races": "71250"
+  },
+  {
+    "state": "AR",
+    "orthopaedic_surgeons": "209",
+    "orthopaedic_surgeries": "100",
+    "population": "2908840",
+    "housing_units": "1314697",
+    "population_male": "1431688",
+    "population_female": "1484354",
+    "education_less_than_high_school": "315076",
+    "education_high_school_graduate": "1113059",
+    "education_associate_degree": "22254",
+    "population_american_indian_alaska_native": "22254",
+    "population_asian": "36102",
+    "population_native_hawaiian_pacific_islander": "5863",
+    "population_other": "99579",
+    "population_two_or_more_races": "57008"
+  },
+  {
+    "state": "AZ",
+    "orthopaedic_surgeons": "458",
+    "orthopaedic_surgeries": "288",
+    "population": "6202968",
+    "housing_units": "2774353",
+    "population_male": "3096290",
+    "population_female": "3130466",
+    "education_less_than_high_school": "596062",
+    "education_high_school_graduate": "2080305",
+    "education_associate_degree": "297162",
+    "population_american_indian_alaska_native": "297162",
+    "population_asian": "164200",
+    "population_native_hawaiian_pacific_islander": "12341",
+    "population_other": "750094",
+    "population_two_or_more_races": "212235"
+  },
+  {
+    "state": "CA",
+    "orthopaedic_surgeons": "1917",
+    "orthopaedic_surgeries": "1054",
+    "population": "30467033",
+    "housing_units": "11035668",
+    "population_male": "15171576",
+    "population_female": "15365255",
+    "education_less_than_high_school": "3880643",
+    "education_high_school_graduate": "8349974",
+    "education_associate_degree": "266922",
+    "population_american_indian_alaska_native": "266922",
+    "population_asian": "4049597",
+    "population_native_hawaiian_pacific_islander": "111482",
+    "population_other": "5499185",
+    "population_two_or_more_races": "1454659"
+  },
+  {
+    "state": "CO",
+    "orthopaedic_surgeons": "479",
+    "orthopaedic_surgeries": "296",
+    "population": "4942184",
+    "housing_units": "2186452",
+    "population_male": "2486221",
+    "population_female": "2475618",
+    "education_less_than_high_school": "332020",
+    "education_high_school_graduate": "1509894",
+    "education_associate_degree": "55689",
+    "population_american_indian_alaska_native": "55689",
+    "population_asian": "136795",
+    "population_native_hawaiian_pacific_islander": "6408",
+    "population_other": "362718",
+    "population_two_or_more_races": "170237"
+  },
+  {
+    "state": "CT",
+    "orthopaedic_surgeons": "345",
+    "orthopaedic_surgeries": "204",
+    "population": "3562739",
+    "housing_units": "1487227",
+    "population_male": "1739614",
+    "population_female": "1834483",
+    "education_less_than_high_school": "264405",
+    "education_high_school_graduate": "1109839",
+    "education_associate_degree": "11256",
+    "population_american_indian_alaska_native": "11256",
+    "population_asian": "135565",
+    "population_native_hawaiian_pacific_islander": "1428",
+    "population_other": "198466",
+    "population_two_or_more_races": "92676"
+  },
+  {
+    "state": "DC",
+    "orthopaedic_surgeons": "68",
+    "orthopaedic_surgeries": "21",
+    "population": "593412",
+    "housing_units": "295698",
+    "population_male": "284222",
+    "population_female": "317501",
+    "education_less_than_high_school": "49793",
+    "education_high_school_graduate": "142273",
+    "education_associate_degree": "2079",
+    "population_american_indian_alaska_native": "2079",
+    "population_asian": "21056",
+    "population_native_hawaiian_pacific_islander": "302",
+    "population_other": "24374",
+    "population_two_or_more_races": "17316"
+  },
+  {
+    "state": "DE",
+    "orthopaedic_surgeons": "81",
+    "orthopaedic_surgeries": "58",
+    "population": "892194",
+    "housing_units": "405831",
+    "population_male": "434935",
+    "population_female": "462990",
+    "education_less_than_high_school": "74963",
+    "education_high_school_graduate": "315784",
+    "education_associate_degree": "4181",
+    "population_american_indian_alaska_native": "4181",
+    "population_asian": "28549",
+    "population_native_hawaiian_pacific_islander": "400",
+    "population_other": "30519",
+    "population_two_or_more_races": "23854"
+  },
+  {
+    "state": "FL",
+    "orthopaedic_surgeons": "1489",
+    "orthopaedic_surgeries": "938",
+    "population": "18575247",
+    "housing_units": "8908133",
+    "population_male": "9099911",
+    "population_female": "9516999",
+    "education_less_than_high_school": "1837664",
+    "education_high_school_graduate": "6671970",
+    "education_associate_degree": "70874",
+    "population_american_indian_alaska_native": "70874",
+    "population_asian": "449455",
+    "population_native_hawaiian_pacific_islander": "12121",
+    "population_other": "672141",
+    "population_two_or_more_races": "466409"
+  },
+  {
+    "state": "GA",
+    "orthopaedic_surgeons": "745",
+    "orthopaedic_surgeries": "398",
+    "population": "9604190",
+    "housing_units": "4067910",
+    "population_male": "4718412",
+    "population_female": "4946125",
+    "education_less_than_high_school": "961809",
+    "education_high_school_graduate": "3143217",
+    "education_associate_degree": "437796",
+    "population_american_indian_alaska_native": "32076",
+    "population_asian": "314318",
+    "population_native_hawaiian_pacific_islander": "6800",
+    "population_other": "388397",
+    "population_two_or_more_races": "207219"
+  }
+];
 const metadata = [
   {
     label: "ZIP CODE",
@@ -2044,12 +2215,46 @@ export default function Component() {
                   )}
                   {activeTableView === "records" && (
                     <div>
+                      {queryType === 'colo' ? (
+                        <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>State</TableHead>
+                            <TableHead>colorectal_surgeon_or_gastroenterologist</TableHead>
+                            <TableHead>colorectal_or_gastroenterology_organization</TableHead>
+                            <TableHead>population</TableHead>
+                            <TableHead>housing_units</TableHead>
+                            <TableHead>population_male</TableHead>
+                            <TableHead>population_female</TableHead>
+                            <TableHead>education_less_than_high_school</TableHead>
+                            <TableHead>education_high_school_graduate</TableHead>
+                            <TableHead>education_associate_degree</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {colo_data.map((row, index) => (
+                            <TableRow key={index}>
+                              <TableCell>{row.state}</TableCell>
+                              <TableCell>{row.colorectal_surgeon_or_gastroenterologist}</TableCell>
+                              <TableCell>{row.colorectal_or_gastroenterology_organization}</TableCell>
+                              <TableCell>{row.population}</TableCell>
+                              <TableCell>{row.housing_units}</TableCell>
+                              <TableCell>{row.population_male}</TableCell>
+                              <TableCell>{row.population_female}</TableCell>
+                              <TableCell>{row.education_less_than_high_school}</TableCell>
+                              <TableCell>{row.education_high_school_graduate}</TableCell>
+                              <TableCell>{row.education_associate_degree}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    ) : queryType === 'joint' ? (
                       <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>State</TableHead>
-                          <TableHead>colorectal_surgeon_or_gastroenterologist</TableHead>
-                          <TableHead>colorectal_or_gastroenterology_organization</TableHead>
+                          <TableHead>state</TableHead>
+                          <TableHead>orthopaedic_surgeons</TableHead>
+                          <TableHead>orthopaedic_surgeries</TableHead>
                           <TableHead>population</TableHead>
                           <TableHead>housing_units</TableHead>
                           <TableHead>population_male</TableHead>
@@ -2057,14 +2262,19 @@ export default function Component() {
                           <TableHead>education_less_than_high_school</TableHead>
                           <TableHead>education_high_school_graduate</TableHead>
                           <TableHead>education_associate_degree</TableHead>
+                          <TableHead>population_american_indian_alaska_native</TableHead>
+                          <TableHead>population_asian</TableHead>
+                          <TableHead>population_native_hawaiian_pacific_islander</TableHead>
+                          <TableHead>population_other</TableHead>
+                          <TableHead>population_two_or_more_races</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {colo_data.map((row, index) => (
+                        {joint_data.map((row, index) => (
                           <TableRow key={index}>
                             <TableCell>{row.state}</TableCell>
-                            <TableCell>{row.colorectal_surgeon_or_gastroenterologist}</TableCell>
-                            <TableCell>{row.colorectal_or_gastroenterology_organization}</TableCell>
+                            <TableCell>{row.orthopaedic_surgeons}</TableCell>
+                            <TableCell>{row.orthopaedic_surgeries}</TableCell>
                             <TableCell>{row.population}</TableCell>
                             <TableCell>{row.housing_units}</TableCell>
                             <TableCell>{row.population_male}</TableCell>
@@ -2072,10 +2282,19 @@ export default function Component() {
                             <TableCell>{row.education_less_than_high_school}</TableCell>
                             <TableCell>{row.education_high_school_graduate}</TableCell>
                             <TableCell>{row.education_associate_degree}</TableCell>
+                            <TableCell>{row.population_american_indian_alaska_native}</TableCell>
+                            <TableCell>{row.population_asian}</TableCell>
+                            <TableCell>{row.population_native_hawaiian_pacific_islander}</TableCell>
+                            <TableCell>{row.population_other}</TableCell>
+                            <TableCell>{row.population_two_or_more_races}</TableCell>                          
                           </TableRow>
                         ))}
                       </TableBody>
                     </Table>
+                  ) : (
+                    <p>No data available</p>
+                  )}
+
                     </div>
                   )}
                   {activeTableView === "metadata" && (
