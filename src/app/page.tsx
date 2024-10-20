@@ -2641,6 +2641,32 @@ export default function Component() {
                             </div>
                           </CardContent>
                         </Card>
+
+                        <Card>
+                            <CardHeader>
+                              <CardTitle>ZipCode</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="grid grid-cols-2 gap-4">
+                                {['ZIPCODE', 'CITY', 'STATE', 'COUNTY', 'AREA_CODE', 'LATITUDE', 'LONGITUDE'].map((field) => (
+                                  <div key={field} className="flex items-center space-x-2">
+                                    <Checkbox 
+                                      id={`zipcode-${field.toLowerCase().replace(/\s+/g, '-')}`}
+                                      checked={selectedZipCodeFields.includes(field)}
+                                      onCheckedChange={(checked) => {
+                                        setSelectedZipCodeFields(prev =>
+                                          checked
+                                            ? [...prev, field]
+                                            : prev.filter(f => f !== field)
+                                        )
+                                      }}
+                                    />
+                                    <Label htmlFor={`zipcode-${field.toLowerCase().replace(/\s+/g, '-')}`}>{field}</Label>
+                                  </div>
+                                ))}
+                              </div>
+                            </CardContent>
+                          </Card>
                       </div>
                     </ScrollArea>
                     
@@ -2769,6 +2795,16 @@ export default function Component() {
                           </CardHeader>
                           <CardContent>
                             {metadataView === 'table' ? <MetadataTable data={censusMetadata}/> : <MetadataVisualization data={censusMetadata}/>}
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                              Zip Codes
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {metadataView === 'table' ? <MetadataTable data={zipcodeMetadata}/> : <MetadataVisualization data={zipcodeMetadata}/>}
                           </CardContent>
                         </Card>
                       </div>
