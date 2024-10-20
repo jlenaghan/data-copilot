@@ -616,6 +616,129 @@ const joint_data = [
   }
 ];
 
+const zipcodeMetadata = [
+  {
+    "label": "ZIP CODE",
+    "core": true,
+    "foreignKey": true,
+    "primaryKey": true,
+    "nullable": false,
+    "format": "Length 5 all numeric",
+    "description": "USPS ASSIGNED ZIP CODE",
+    "uniqueValues": "40,000",
+    "commonValues": "--",
+    "nullPercentage": "0.000%",
+    "min": "00501",
+    "max": "95052",
+    "average": "--"
+  },
+  {
+    "label": "CITY",
+    "core": true,
+    "foreignKey": false,
+    "primaryKey": false,
+    "nullable": false,
+    "format": "Text length 28",
+    "description": "USPS ASSIGNED CITY NAME FOR A SPECIFIC ZIP CODE",
+    "uniqueValues": "17,836",
+    "commonValues": "WASHINGTON, HOUSTON, NEW YORK",
+    "nullPercentage": "0.000%",
+    "min": "--",
+    "max": "--",
+    "average": "--"
+  },
+  {
+    "label": "STATE",
+    "core": true,
+    "foreignKey": true,
+    "primaryKey": false,
+    "nullable": false,
+    "format": "Text length 2",
+    "description": "USPS ASSIGNED STATE ABBREVIATION FOR A SPECIFIC ZIP CODE",
+    "uniqueValues": "47",
+    "commonValues": "TX, PA, NY",
+    "nullPercentage": "0.000%",
+    "min": "--",
+    "max": "--",
+    "average": "--"
+  },
+  {
+    "label": "COUNTY",
+    "core": true,
+    "foreignKey": true,
+    "primaryKey": false,
+    "nullable": false,
+    "format": "Text length 21",
+    "description": "USPS ASSIGNED COUNTY NAME FOR A SPECIFIC ZIP CODE",
+    "uniqueValues": "1,756",
+    "commonValues": "LOS ANGELES, JEFFERSON, WASHINGTON",
+    "nullPercentage": "0.000%",
+    "min": "--",
+    "max": "--",
+    "average": "--"
+  },
+  {
+    "label": "AREA_CODE",
+    "core": true,
+    "foreignKey": false,
+    "primaryKey": false,
+    "nullable": true,
+    "format": "--",
+    "description": "PRIMARY NORTH AMERICAN NUMBERING PLAN ADMINISTRATOR (NANPA) AREA CODE ASSIGNED FOR A SPECIFIC ZIP CODE",
+    "uniqueValues": "1",
+    "commonValues": NaN,
+    "nullPercentage": "100.00%",
+    "min": "--",
+    "max": "--",
+    "average": "--"
+  },
+  {
+    "label": "LATITUDE",
+    "core": true,
+    "foreignKey": false,
+    "primaryKey": false,
+    "nullable": true,
+    "format": "Decimal XX.XXXXX",
+    "description": "PRIMARY LATITUDE FOR A SPECIFIC ZIP CODE",
+    "uniqueValues": "31,821",
+    "commonValues": "33.786594, 29.83399, 38.893311",
+    "nullPercentage": "0.030%",
+    "min": "24.90169",
+    "max": "59.58000",
+    "average": "--"
+  },
+  {
+    "label": "LONGITUDE",
+    "core": true,
+    "foreignKey": false,
+    "primaryKey": false,
+    "nullable": true,
+    "format": "Decimal XX.XXXXX",
+    "description": "PRIMARY LONGITUDE FOR A SPECIFIC ZIP CODE",
+    "uniqueValues": "31,849",
+    "commonValues": "-72.637078, -71.459405, -73.977182",
+    "nullPercentage": "0.030%",
+    "min": "-123.048629",
+    "max": "111.96000",
+    "average": "--"
+  },
+  {
+    "label": "PASS INITIAL CLEANSE",
+    "core": false,
+    "foreignKey": false,
+    "primaryKey": false,
+    "nullable": false,
+    "format": "Length 1 all numeric",
+    "description": "FLAG THAT ENABLES USER TO FILTER OUT RECORDS THAT DO NOT PASS LIGHT CLEANSING",
+    "uniqueValues": "2",
+    "commonValues": "will calculate after create",
+    "nullPercentage": "0.000%",
+    "min": "0",
+    "max": "1",
+    "average": "--"
+  }
+]
+
 const dartMetadata = [
   {
     label: "ZIP CODE",
@@ -1221,6 +1344,35 @@ export default function Component() {
     { method: 'Knees', total: 800, averageAge: 58.1 },
   ];
 
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, checked } = event.target;
+    console.log(`Checkbox ${id} is now ${checked ? 'checked' : 'unchecked'}`);
+    if (checked) {
+      if (id === "condition-colonoscopy") {
+        setQueryType("colo");
+      } else if (id === "condition-joint replacement") {
+        setQueryType("joint");
+      }
+    } else {
+      setQueryType("");
+    }
+    console.log(`query type is now ${queryType}`);
+  };
+
+  const handleApplyBuildFilters = () => {
+    setShowTableView(true);
+    setQueryType('colo')
+    if (queryType === "colo") {
+      setSqlQuery(COLORECTAL_QUERY)
+      setTableData(coloTableData);
+    } else if (queryType === "joint") {
+      setSqlQuery(JOINT_REPLACEMENT_QUERY)
+      setTableData(jointTableData);
+    } else {
+      setTableData([]);
+    }
+
+  }
 
   const handleSendMessage = (event) => {
     event.preventDefault();
@@ -1281,7 +1433,6 @@ export default function Component() {
     console.log('Exporting all data')
     // You would typically call an API or generate files here
   }
-
 
   const handleApplyFilters = () => {
     // Your existing filter logic
@@ -1695,7 +1846,7 @@ export default function Component() {
                     <AccordionContent>
                       <div className="space-y-2">
                         <Label>Select Conditions</Label>
-                        {["Diabetes", "Hypertension", "Asthma", "COPD"].map(
+                        {["Diabetes", "Hypertension", "Asthma", "COPD", "Joint Replacement", "Colonoscopy"].map(
                           (condition) => (
                             <div
                               key={condition}
@@ -1703,6 +1854,7 @@ export default function Component() {
                             >
                               <Checkbox
                                 id={`condition-${condition.toLowerCase()}`}
+                                onChange={handleCheckboxChange}
                               />
                               <Label
                                 htmlFor={`condition-${condition.toLowerCase()}`}
@@ -1836,7 +1988,7 @@ export default function Component() {
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
-                <Button className="w-full mt-4" onClick={() => setShowTableView(true)}>
+                <Button className="w-full mt-4" onClick={handleApplyBuildFilters}>
                   <Filter className="mr-2 h-4 w-4" />
                   Apply Filters
                 </Button>
@@ -2879,25 +3031,50 @@ export default function Component() {
                       </ScrollArea>
                     )}
                     {activeTableView === 'metadata' && (
-                      <Card>
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-between">
-                            Dartmouth HSA HRR
-                            <Select value={metadataView} onValueChange={(value: 'table' | 'visualization') => setMetadataView(value)}>
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select view" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="table">Table View</SelectItem>
-                                <SelectItem value="visualization">Visualization</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          {metadataView === 'table' ? <MetadataTable data={dartMetadata}/> : <MetadataVisualization data={dartMetadata}/>}
-                        </CardContent>
-                      </Card>
+                      // explore metadata
+                      <>
+                      <div className="overflow-y-scroll h-[500px]">
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                              Zip Codes
+                              <Select value={metadataView} onValueChange={(value: 'table' | 'visualization') => setMetadataView(value)}>
+                                <SelectTrigger className="w-[180px]">
+                                  <SelectValue placeholder="Select view" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="table">Table View</SelectItem>
+                                  <SelectItem value="visualization">Visualization</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {metadataView === 'table' ? <MetadataTable data={zipcodeMetadata}/> : <MetadataVisualization data={zipcodeMetadata}/>}
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                              Dartmouth HSA HRR
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {metadataView === 'table' ? <MetadataTable data={dartMetadata}/> : <MetadataVisualization data={dartMetadata}/>}
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                              Census
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {metadataView === 'table' ? <MetadataTable data={censusMetadata}/> : <MetadataVisualization data={censusMetadata}/>}
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </>
                     )}
                     {activeTableView === 'lineage' && (
                       <Card>
