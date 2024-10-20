@@ -585,6 +585,7 @@ export default function Component() {
   const [selectedDartmouthFields, setSelectedDartmouthFields] = React.useState<string[]>(['ZIP_CODE', 'HSA CITY', 'HSA STATE', 'HRR CITY', 'HRR STATE'])
   const [selectedCensusFields, setSelectedCensusFields] = React.useState<string[]>(['ZIP CODE', 'HOUSING UNITS', 'MEDIAN HOUSEHOLD INCOME', 'POPULATION DENSITY', 'POPULATION'])
   const [selectedZipCodeFields, setSelectedZipCodeFields] = React.useState<string[]>(['ZIPCODE', 'CITY', 'STATE'])
+  const [queryType, setQueryType] = React.useState<"colo" | "joint" | "">("");
 
   const [selectedNPPESFields, setSelectedNPPESFields] = React.useState<string[]>([
     'ENTITY TYPE CODE',
@@ -706,13 +707,16 @@ export default function Component() {
       setSqlQuery(COLORECTAL_QUERY);
       updatedMessages.push({ role: 'system', content: 'I have processed this question about colorectal patients. Please see the query I generated to the right.' });
       setTableData(coloTableData)
+      setQueryType('colo');
     } else if (userInput.includes('joint')) {
       setSqlQuery(JOINT_REPLACEMENT_QUERY);
       updatedMessages.push({ role: 'system', content: 'I have processed this question about joint replacement patients. Please see the query I generated to the right.' });
       setTableData(jointTableData)
+      setQueryType('joint');
     } else {
       setSqlQuery('');
       setChatMessages([...chatMessages, newMessage, { role: 'system', content: 'Please better specify the question' }]);
+      setQueryType('');
     }
     setChatMessages(updatedMessages);
     event.target.userInput.value = '';
@@ -1454,9 +1458,123 @@ export default function Component() {
                   </form>
                   <div className="mt-4">
                     <h4 className="text-sm font-medium mb-2">
-                      Query Explanation
+                      <strong>Query Explanation</strong>
                     </h4>
-                    <p className="text-sm text-muted-foreground">
+                    {queryType === 'colo' ? (
+                      <ol className="list-decimal pl-5 space-y-2 text-sm text-muted-foreground">
+                        <li>
+                            <strong>Step 1: Select the Data</strong>
+                            <p>The outer SELECT statement specifies the columns to retrieve:</p>
+                            <ul className="list-disc pl-5">
+                                <li>"STATE": The state code.</li>
+                                <li>Various <code>SUM()</code> functions to aggregate counts of healthcare providers and demographic data (population, housing units, education levels, income brackets, and racial/ethnic groups).</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <strong>Step 2: From Clause and Subquery</strong>
+                            <p>The data is pulled from a subquery labeled E, which combines information from multiple tables:</p>
+                            <ul className="list-disc pl-5">
+                                <li><strong>Base Table:</strong> zipcodes A - This is the main table containing ZIP code and state data.</li>
+                                <li><strong>Joining Other Tables:</strong></li>
+                                <ul className="list-disc pl-5">
+                                    <li>LEFT JOIN with <code>zip_crosswalks_ziphsahrr19</code> B: Links ZIP codes to healthcare service areas (HSAs) and health resource regions (HRRs).</li>
+                                    <li>LEFT JOIN with <code>zip_to_census</code> C: Joins census data based on ZIP codes to get demographic information.</li>
+                                    <li>LEFT JOIN with a subquery D: This subquery calculates the number of colorectal surgeons and gastroenterology organizations by ZIP code from a dataset of healthcare providers (<code>nppes_npidata_pfile_2005052320240707</code>).</li>
+                                </ul>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <strong>Step 3: Subquery for Healthcare Providers</strong>
+                            <p>In the subquery D, the query:</p>
+                            <ul className="list-disc pl-5">
+                                <li>Uses <code>SUM()</code> with CASE statements to count colorectal surgeons and gastroenterology organizations based on specific taxonomy codes.</li>
+                                <li>Groups the results by ZIP code.</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <strong>Step 4: Filtering Data</strong>
+                            <p>The <code>WHERE</code> clause filters results to include only specific states, ensuring that only data from the listed states is processed.</p>
+                        </li>
+
+                        <li>
+                            <strong>Step 5: Aggregating Results</strong>
+                            <p>The outer query groups the results by state (<code>GROUP BY 1</code>), which refers to the first column in the SELECT statement (the state code). It sums various metrics across all relevant ZIP codes for each state.</p>
+                        </li>
+
+                        <li>
+                            <strong>Step 6: Ordering Results</strong>
+                            <p>Finally, the <code>ORDER BY 1</code> clause sorts the results by state in ascending order.</p>
+                        </li>
+
+                        <li>
+                            <strong>Summary of the Result</strong>
+                            <p>The final output provides a summary of the number of colorectal surgeons, gastroenterologists, demographic details, and socioeconomic factors for each state specified in the query. This aggregated data can be used for analyzing healthcare access and demographic trends across states.</p>
+                        </li>
+                        </ol>
+                    ) : queryType === 'joint' ? (
+                      <ol className="list-decimal pl-5 space-y-2 text-sm text-muted-foreground">
+                      <li>
+                          <strong>Step 1: Select the Data</strong>
+                          <p>The outer SELECT statement specifies the columns to retrieve:</p>
+                          <ul className="list-disc pl-5">
+                              <li>"STATE": The state code, aliased as <code>state</code>.</li>
+                              <li>Various <code>SUM()</code> functions that aggregate counts of orthopaedic surgeons, orthopaedic surgeries, and demographic data (population, housing units, education levels, income brackets, and racial/ethnic groups).</li>
+                          </ul>
+                      </li>
+
+                      <li>
+                          <strong>Step 2: From Clause and Subquery</strong>
+                          <p>The data is pulled from a subquery labeled E, which combines information from multiple tables:</p>
+                          <ul className="list-disc pl-5">
+                              <li><strong>Base Table:</strong> <code>zipcodes</code> A - This table contains ZIP code and state information.</li>
+                              <li><strong>Joining Other Tables:</strong></li>
+                              <ul className="list-disc pl-5">
+                                  <li>LEFT JOIN with <code>zip_crosswalks_ziphsahrr19</code> B: Links ZIP codes to healthcare service areas (HSAs) and health resource regions (HRRs).</li>
+                                  <li>LEFT JOIN with <code>zip_to_census</code> C: Joins demographic data based on ZIP codes.</li>
+                                  <li>LEFT JOIN with a subquery D: This subquery counts orthopaedic surgeons and surgeries based on a dataset of healthcare providers (<code>nppes_npidata_pfile_2005052320240707</code>).</li>
+                              </ul>
+                          </ul>
+                      </li>
+
+                      <li>
+                          <strong>Step 3: Subquery for Healthcare Providers</strong>
+                          <p>In subquery D, the query:</p>
+                          <ul className="list-disc pl-5">
+                              <li>Uses <code>SUM()</code> with CASE statements to count orthopaedic surgeons and orthopaedic surgeries based on specific taxonomy codes.</li>
+                              <li>The <code>WHERE</code> clause filters the data for only those providers marked as active (using the Primary Taxonomy Switch).</li>
+                              <li>The results are grouped by the first five digits of the ZIP code (<code>pvd_zip</code>).</li>
+                          </ul>
+                      </li>
+
+                      <li>
+                          <strong>Step 4: Filtering Data</strong>
+                          <p>The <code>WHERE</code> clause in the subquery filters results to include only specific states, ensuring that only data from those states is processed.</p>
+                      </li>
+
+                      <li>
+                          <strong>Step 5: Aggregating Results</strong>
+                          <p>The outer query groups the results by state (<code>GROUP BY 1</code>), which refers to the first column in the SELECT statement (the state code). It sums various metrics across all relevant ZIP codes for each state.</p>
+                      </li>
+
+                      <li>
+                          <strong>Step 6: Ordering Results</strong>
+                          <p>Finally, the <code>ORDER BY 1</code> clause sorts the results by state in ascending order.</p>
+                      </li>
+
+                      <li>
+                          <strong>Summary of the Result</strong>
+                          <p>The final output provides a summary of the number of orthopaedic surgeons, orthopaedic surgeries, and demographic details for each specified state. This aggregated data can be used to analyze healthcare access and demographic trends related to orthopaedic care across states.</p>
+                      </li> 
+                      </ol>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">No query explanation available.</p>
+                    )}
+
+
+                    {/* <p className="text-sm text-muted-foreground">
                       This query does the following:
                     </p>
                     <ol className="list-decimal pl-5 space-y-2 text-sm text-muted-foreground">
@@ -1471,7 +1589,7 @@ export default function Component() {
                         Orders the results by the total number of screenings in
                         descending order.
                       </li>
-                    </ol>
+                    </ol> */}
                   </div>
                 </CardContent>
               </Card>
